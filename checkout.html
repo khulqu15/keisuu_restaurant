@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Check Out</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style/globals.css" />
+  <link rel="stylesheet" href="style/styleguide.css" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/msg-box-style.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="script.js" defer></script>
+  <script src="template/header.js" type="text/javascript" defer></script>
+  <script src="template/footer.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+  <div class="check-out">
+    <div class="div">
+      <header-component></header-component>
+      <div class="overlap">
+        <div class="modal">
+          <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="msg">
+              <div class="overlap-wrapper-msg">
+                <div class="overlap-msg">
+                  <div class="rectangle"></div>
+                  <div class="div"></div>
+                  <p class="your-order-is">
+                    Your order is Successfully submitted!<br />We hope you enjoy our delicacies.<br />Thank You for
+                    visiting Us
+                    ^.^
+                  </p>
+                  <a href="index.html">
+                    <button class="c-button">
+                      <div class="text-wrapper">Close</div>
+                    </button>
+                  </a>
+                  <img class="cooking" src="img/cooking.png" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <fieldset style="background-color: #fff;">
+          <legend>Your Receipt</legend>
+          <div class="component">
+            <table>
+              <tr>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+              <tr class="orderedFood">
+                <td>
+                  <p class="food-name">Coconut Milk Noodle</p>
+                </td>
+                <td>
+                  2
+                  </div>
+                </td>
+                <td>1000</td>
+              </tr>
+              <tr class="orderedFood">
+                <td>
+                  <p class="food-name">Grape Juice</p>
+                </td>
+                <td>
+                  1
+                  </div>
+                </td>
+                <td>700</td>
+              </tr>
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+              <tr>
+                <td colspan="2" style="text-align: right;">Tax :</td>
+                <td>+ 170</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: right;">Total :</td>
+                <td>1870</td>
+              </tr>
+            </table>
+          </div>
+        <div class="overlap-wrapper">
+          <div class="overlap-3">
+            <div class="text-wrapper-7">Table</div>
+            <div class="text-wrapper-8">7</div>
+          </div>
+        </div>
+      </div>
+      
+      <footer-component></footer-component>
+    </div>
+  </div>
+</body>
+
+</html>

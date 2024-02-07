@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Food Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style/globals.css" />
+  <link rel="stylesheet" href="style/styleguide.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style/model-box-style.css" />
+  <link rel="stylesheet" href="style/index.css" />
+  <!-- Add Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="script.js" defer></script>
+  <script src="template/header.js" type="text/javascript" defer></script>
+  <script src="template/footer.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+  <div class="menu">
+    <div class="div">
+      <header-component></header-component>
+      <div class="menu-section">
+
+        <!--Food Order Detail-->
+        <div class="modal">
+          <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="food">
+              <div class="food-detail">
+                <div class="overlap-group-fd">
+                  <div class="mb-rectangle"></div>
+                  <div class="mb-div"></div>
+                  <img class="kyar-san-chat11" src="img/ohn-no-khauk-swe.jpg" />
+                  <div class="mb-text-wrapper">Number of Order:</div>
+                  <div class="kyar-san-chat-12">A-01 <br>Coconut Milk<br />Noodle</div>
+                  <a href="index.html">
+                    <button class="mb-component">Add to Order List</button>
+                  </a>
+                  <div class="mb-text-wrapper-3"><br /><br>1000 Yen</div>
+                  <div class="mb-rectangle-2"></div>
+                  <div class="mb-component-2">
+                    <form>
+                      <div onclick="decreaseValue()" value="Decrease Value">
+                        <img class="ic-remove-circle" src="img/ic-remove-circle-outline-24px-2.svg" />
+                      </div>
+                      <input type="number" id="number" value="0" />
+                      <div onclick="increaseValue()" value="Increase Value">
+                        <img class="ic-add-circle" src="img/ic-add-circle-outline-24px-2.svg" />
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="navbar">
+          <a href="#" onclick="openTab(0)" class="nav-item active">Noodles</a>
+          <a href="#" onclick="openTab(1)" class="nav-item">Appetite</a>
+          <a href="#" onclick="openTab(2)" class="nav-item">Rices</a>
+          <a href="#" onclick="openTab(3)" class="nav-item">Drinks</a>
+          <a href="#" onclick="openTab(4)" class="nav-item">Desserts</a>
+        </nav>
+        </div>
+        <div class="menuOverflow">
+        <!-- Swiper -->
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="grid-container">
+                <div class="trigger">
+                  <img src="img/kyar-san-chat.jpg" class="food-img">
+                  <p class="food-text">Kyar San Chat <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/mont-hnin-khar.jpg" class="food-img">
+                  <p class="food-text">Mont Hinn Khar <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/ohn-no-khauk-swe.jpg" class="food-img">
+                  <p class="food-text">Coconut Milk Noodle <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/kyar-san-chat.jpg" class="food-img">
+                  <p class="food-text">Kyar San Chat <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/mont-hnin-khar.jpg" class="food-img">
+                  <p class="food-text">Mont Hinn Khar <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/ohn-no-khauk-swe.jpg" class="food-img">
+                  <p class="food-text">Coconut Milk Noodle <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/mont-hnin-khar.jpg" class="food-img">
+                  <p class="food-text">Mont Hinn Khar <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/ohn-no-khauk-swe.jpg" class="food-img">
+                  <p class="food-text">Coconut Milk Noodle <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/kyar-san-chat.jpg" class="food-img">
+                  <p class="food-text">Kyar San Chat <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/mont-hnin-khar.jpg" class="food-img">
+                  <p class="food-text">Mont Hinn Khar <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/ohn-no-khauk-swe.jpg" class="food-img">
+                  <p class="food-text">Coconut Milk Noodle <br> 1000 Yen</p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="grid-container">
+                <div>
+                  <img src="img/tofu.jpg" class="food-img">
+                  <p class="food-text">Fried Tofu <br> 700 Yen</p>
+                </div>
+                <div>
+                  <img src="img/wat-thar-kin.jpg" class="food-img">
+                  <p class="food-text">Grilled Pork <br> 700 Yen</p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="grid-container">
+                <div>
+                  <img src="img/fried-rice.jpg" class="food-img">
+                  <p class="food-text">Fried Rice & Egg <br> 1000 Yen</p>
+                </div>
+                <div>
+                  <img src="img/tea_leaf_rice.jpg" class="food-img">
+                  <p class="food-text">Pickled Tea Leaf Rice <br> 800 Yen</p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="grid-container">
+                <div>
+                  <img src="img/cola.jpg" class="food-img">
+                  <p class="food-text">Coca-Cola <br> 300 Yen</p>
+                </div>
+                <div>
+                  <img src="img/StrawberryJuice.jpg" class="food-img">
+                  <p class="food-text">Strawberry Juice <br> 700 Yen</p>
+                </div>
+                <div>
+                  <img src="img/grapejuice.jpg" class="food-img">
+                  <p class="food-text">Grape Juice <br> 300 Yen</p>
+                </div>
+                <div>
+                  <img src="img/mango.jpg" class="food-img">
+                  <p class="food-text">Mango Juice <br> 300 Yen</p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="grid-container">
+                <div>
+                  <img src="img/ice-cream.jpg" class="food-img">
+                  <p class="food-text">Ice-Cream <br> 700 Yen</p>
+                </div>
+                <div>
+                  <img src="img/cake.jpg" class="food-img">
+                  <p class="food-text">Mini Cake <br> 900 Yen</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!--Swiper End-->
+      
+      <div class="group">
+        <div class="overlap-group">
+          <div class="text-wrapper">Table</div>
+          <div class="text-wrapper-2">7</div>
+        </div>
+      </div>
+    
+      <footer-component></footer-component>
+    </div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</body>
+
+</html>

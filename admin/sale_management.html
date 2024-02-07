@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sale Management</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./js/jsbn.js"></script>
+    <script src="./js/jsbn2.js"></script>
+    <script src="./js/sjcl.js"></script>
+    <script src="./js/aws-sdk.min.js"></script>
+    <script src="./js/aws-cognito-sdk.min.js"></script>
+    <script src="./js/amazon-cognito-identity.min.js"></script>
+    <script src="js/header.js" type="text/javascript" defer></script>
+    <script src="js/script.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+    <header-component></header-component>
+    <div id="main">
+        <div id="dashboard-container">
+            <table class="noti_table" style="width: 70%;">
+                <thead>
+                    <td colspan="5" style="background-color: rgb(2, 216, 240); color: #fff;">
+                        <h1 class="title">Daily Sale Records for (Tokyo) Branch</h1>
+                    </td>
+                </thead>
+                <tr>
+                    <td colspan="5">Date : 02-02-2024</td>
+                </tr>
+                <tr>
+                    <th style="width:15%;">Food ID</th>
+                    <th style="width:30%;">Food Name</th>
+                    <th style="width:15%;">Price</th>
+                    <th style="width:15%;">Quantity</th>
+                    <th style="width:25%;">Total (Yen)</th>
+                </tr>
+                <tr>
+                    <td>A-01</td>
+                    <td>
+                        Kyar San Chat
+                    </td>
+                    <td>1000</td>
+                    <td>20</td>
+                    <td>20000</td>
+                </tr>
+                <tr>
+                    <td>A-02</td>
+                    <td>
+                        Fried Rice and Egg
+                    </td>
+                    <td>1000</td>
+                    <td>15</td>
+                    <td>15000</td>
+                </tr>
+                <tr>
+                    <td>A-03</td>
+                    <td>
+                        Grilled Pork Sticks
+                    </td>
+                    <td>800</td>
+                    <td>10</td>
+                    <td>8000</td>
+                </tr>
+                <tr>
+                    <td>B-01</td>
+                    <td>
+                        Coca-Cola
+                    </td>
+                    <td>500</td>
+                    <td>35</td>
+                    <td>17500</td>
+                </tr>
+                <tr>
+                    <td>B-03</td>
+                    <td>
+                        Grape Juice
+                    </td>
+                    <td>700</td>
+                    <td>10</td>
+                    <td>7000</td>
+                </tr>
+                <tr><td colspan="5"></td></tr>
+                <tr><td colspan="5"></td></tr>
+                <tr>
+                    <td colspan="4"><h3 style="text-align: right;">Total Sale -</h3></td>
+                    <td>67500</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--script src="./js/index.js" defer></script-->
+</body>
+
+</html>

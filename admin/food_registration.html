@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Food Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/header.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+    <header-component></header-component>
+    <div id="main">
+        <form action="#">
+            <div class="container">
+                <h1 class="title">Food Registration</h1>
+                <h5 class="subtitle">Please fill in this form to add new food.</h5>
+                <hr>
+                <label>Upload Food Image</label>
+                <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png">
+                <br>
+                <label>Food Name</label>
+                <input type="text" id="fname" name="foodname" placeholder="Enter Food Name...">
+
+                <label>Price (Yen)</label>
+                <input type="text" id="price" name="price" placeholder="Enter Food Price...">
+
+                <label>Category</label>
+                <select id="category" name="category">
+                    <option value="noodles">Noodles</option>
+                    <option value="appetite">Appetite</option>
+                    <option value="rices">Rices</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="desserts">Desserts</option>
+                </select>
+                <input type="submit" value="Add Food">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

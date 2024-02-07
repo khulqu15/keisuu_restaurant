@@ -1,0 +1,246 @@
+body {
+    background-color: #ffdbbc;
+    font-family: "Segoe UI-Semibold", Helvetica;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 80px auto;
+    padding: 50px;
+    width: 60%;
+    background-color: white;
+    border-radius: 5px;
+}
+
+hr {
+    width: 50%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.order-container {
+    display: flex;
+    /* Establish flex container */
+    justify-content: center;
+    /* Horizontally center children */
+    align-items: center;
+    /* Vertically center children (if needed) */
+    flex-direction: row;
+    /* Lay out children in a row */
+    flex-wrap: wrap;
+    /* Allow children to wrap to next line */
+}
+
+.img-container {
+    margin: 30px 10px;
+    /* Add auto margins to center within flex container */
+    position: relative;
+    /* Other styles */
+}
+
+
+.img-paper {
+    width: 150px;
+    height: 150px;
+}
+
+.title {
+    text-align: center;
+    clear: both;
+}
+
+.text-block {
+    position: absolute;
+    left: 30%;
+    bottom: 5%;
+    text-align: center;
+    font-size: 23px;
+}
+
+/*Food Order Detail*/
+
+/* New CSS for the checkmark */
+.gallery .checkmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 2; /* make sure it appears above the image */
+    color:rgb(0, 255, 170);
+    font-size: 150px;
+}
+
+/* Show the checkmark when the .checked class is added */
+.gallery.checked .checkmark {
+    display: block;
+}
+
+.gallery .crossmark {
+    display: none;
+    color: red; /* style the cross mark */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 150px;
+    z-index: 2;
+}
+
+.btnAction:disabled {
+    background-color: #e8e8e8;
+    color: #666;
+    border: none;
+    cursor: not-allowed;
+}
+
+div.gallery {
+    position: relative;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: 200px;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.responsive {
+    padding: 10px 16px;
+    float: left;
+    width: 33.33%;
+}
+
+.btnGroup{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.btnAction{
+    margin: -15px 10px 15px 10px;
+    background-color: var(--rgb255-118-0);
+    border-radius: 50px;
+    border: 1px solid;
+    border-color: #ff7600;
+    box-sizing: border-box;
+    color: #ff7600;
+    padding: 10px;
+    width: 80px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+input[type=submit] {
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--rgb255-118-0);
+    border-radius: 50px;
+    border: 1px solid;
+    border-color: #ff7600;
+    box-sizing: border-box;
+    color: #ff7600;
+    padding: 10px 50px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+input[type=submit]:hover {
+    background-color: #ff7600;
+    color: #ffffff;
+}
+
+@media only screen and (max-width: 1000px) {
+    .responsive {
+        width: 49.99999%;
+        margin: 10px 0;
+    }
+
+    div.desc {
+        font-size: 17px;
+    }
+
+    div.gallery img {
+        height: 180px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .responsive {
+        width: 100%;
+    }
+
+    div.desc {
+        font-size: 15px;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/*End of Food Order Detail*/
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    .container {
+        width: 80%;
+    }
+}
+
+/* Responsive media query for tablets */
+@media (max-width: 1280px) {
+
+    .container {
+        width: 70%;
+    }
+}
+
+/* Responsive media query for tablets */
+@media (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
+}

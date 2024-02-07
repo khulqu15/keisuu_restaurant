@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Food</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/header.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body class="body-img">
+    <header-component></header-component>
+    <div id="main">
+        <form action="#">
+            <div class="container">
+                <h1 class="title">Food Edit</h1>
+                <hr>
+                <div class="image-preview-container">
+                    <img id="image-preview" src="../img/ice-cream.jpg" alt="Food Image Preview" />
+                    <i class="fas fa-edit edit-icon"></i>
+                </div>
+                <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png">
+                <br>
+                <label>Food ID : A-01</label>
+                <br>
+
+                <label>Food Name</label>
+                <input type="text" id="fname" name="foodname" placeholder="Enter Food Name..." value="Ice-Cream">
+
+                <label>Price (Yen)</label>
+                <input type="text" id="price" name="price" placeholder="Enter Food Price..." value="700">
+
+                <label>Category</label>
+                <select id="category" name="category">
+                    <option value="desserts">Desserts<!--This will Change into a variable--></option>
+                    <option value="noodles">Noodles</option>
+                    <option value="appetite">Appetite</option>
+                    <option value="rices">Rices</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="desserts">Desserts</option>
+                </select>
+                <input type="submit" value="Update">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var imageInput = document.getElementById('image');
+            var imagePreview = document.getElementById('image-preview');
+            var editIcon = document.querySelector('.edit-icon');
+
+            editIcon.addEventListener('click', function () {
+                imageInput.click(); // Trigger the file input when the edit icon is clicked
+            });
+
+            imageInput.addEventListener('change', function (event) {
+                if (event.target.files && event.target.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result; // Update the preview image src
+                    };
+                    reader.readAsDataURL(event.target.files[0]); // Read the file as a data URL
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
