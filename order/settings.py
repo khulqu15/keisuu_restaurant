@@ -1,3 +1,6 @@
+import os
+from corsheaders.middleware import CorsMiddleware
+
 """
 Django settings for order project.
 
@@ -31,6 +34,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'payment',
+    'food',
     'customer',
     'restaurant',
     "django.contrib.admin",
@@ -39,9 +44,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # "corsheaders",
 ]
 
 MIDDLEWARE = [
+    # "corsheaders.middleware.CorsMiddleware"
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -50,6 +57,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "order.urls"
 
@@ -80,11 +89,11 @@ WSGI_APPLICATION = "order.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": '',
-        "USER": '',
-        "PASSWORD": '',
-        "HOST": '',
-        "PORT": '',
+        "NAME": 'db_restaurant',
+        "USER": 'postgres',
+        "PASSWORD": '12345678',
+        "HOST": 'localhost',
+        "PORT": '5432',
     }
 }
 
@@ -135,3 +144,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
