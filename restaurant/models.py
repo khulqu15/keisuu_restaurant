@@ -3,6 +3,7 @@ from django.db import models
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, blank=True)
     def __str__(self):
         return self.name
 
@@ -23,4 +24,4 @@ class KitchenStaff(models.Model):
     password = models.CharField(max_length=255)
     address = models.TextField()
     def __str__(self):
-        return self.name
+        return self.name    

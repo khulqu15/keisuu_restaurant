@@ -30,9 +30,7 @@ class RestaurantViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response({
             "status": "success",
-            "data": {
-                "restaurant_name": serializer.data.get('name')
-            }
+            "data": serializer.data,
         }, status=status.HTTP_201_CREATED, headers=headers)
     
     def retrieve(self, request, *args, **kwargs):
@@ -55,9 +53,7 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
         return Response({
             "status": "success",
-            "data": {
-                "restaurant_name": serializer.data.get('name')
-            }
+            "data": serializer.data
         })
 
     def destroy(self, request, *args, **kwargs):

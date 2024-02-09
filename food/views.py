@@ -9,6 +9,8 @@ from .models import Food, Category, Translation
 from restaurant.models import Restaurant
 from payment.serializers import OrderItemSerializer, FoodOrderSerializer, PaymentSerializer
 from payment.models import OrderItem, FoodOrder, Payment
+from customer.models import Table, Customer
+from customer.serializers import TableSerializer, CustomerSerializer
 from .serializers import FoodSerializer, CategorySerializer, TranslationSerializer
 
 class FoodViewSet(viewsets.ModelViewSet):
@@ -194,6 +196,77 @@ class TranslationViewSet(viewsets.ModelViewSet):
             "message": "Food Category deleted successfully"
         }, status=status.HTTP_204_NO_CONTENT)
         
+        
+@api_view(['GET'])
+def GetTable(request, restaurant_id):
+    if request.method == 'GET':
+        tables = Table.objects.filter(is_reserved=False).first()
+        if tables is not None:
+            data = {
+                'is_reserved': True
+            }
+            serializer = TableSerializer(tables, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse({
+                    'status': "success",
+                    'data': serializer.data
+                })
+        else:
+            return JsonResponse({
+                'status': "error",
+                'message': "Restaurant Table Are Full"
+            })
+
+@api_view(['GET'])
+def SetTableAvailable(request, restaurant_id, table_id):
+    if request.method == 'GET':
+        table = get_object_or_404(Table, pk=table_id)
+        data = {
+            'is_reserved': False
+        }
+        serializer = TableSerializer(table, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse({
+                'status': "success",
+                'data': serializer.data
+            })
+        else:
+            return JsonResponse({
+                'status': "error",
+                'data': "Error Invalid Data"
+            })
+            
+@api_view(['GET'])
+def RequestNewCustomer(request, restaurant_id):
+    if request.method == 'GET':
+        data = {
+            'restaurant': restaurant_id,
+            'name': 'Customer Restaurant '+str(restaurant_id)
+        }
+        serializer = CustomerSerializer(data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse({
+                'status': "success",
+                'data': serializer.data
+            })
+        else:
+            return JsonResponse({
+                'status': "error",
+                'data': "Error Invalid Data"
+            })
+            
+@api_view(['DELETE'])
+def DeleteEndedCustomer(request, restaurant_id, customer_id):
+    if request.method == 'DELETE':
+        customer = get_object_or_404(Customer, pk=customer_id)
+        customer.delete()
+        return JsonResponse({
+            "status": "success",
+            "message": "Customer removed successfully"
+        })            
 
 @api_view(['GET'])
 def GetAllFoods(request, restaurant_id):
@@ -205,6 +278,7 @@ def GetAllFoods(request, restaurant_id):
             "data": serializer_class 
         })
 
+@api_view(['GET'])
 def GetAllOrder(request, restaurant_id):
     if request.method == 'GET':
         foodsOrder = FoodOrder.objects.all().order_by('id')
