@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
 
 <head>
   <title>Food Menu</title>
@@ -9,26 +9,115 @@
   
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="style/icon.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="script.js" defer></script>
   <script src="translation.js" type="text/javascript" defer></script>
-  <script src="template/header.js" type="text/javascript" defer></script>
-  <script src="template/footer.js" type="text/javascript" defer></script>
 </head>
 
 <body>
+  <div class="max-h-screen flex overflow-hidden justify-center">
+    <div class="max-w-lg overflow-x-hidden relative bg-orange-100 w-full min-h-screen">
+    
+      <div class="max-w-lg w-full bg-white rounded-b-xl shadow-lg grid grid-cols-2 items-center gap-x-2">
+        <div class="py-2 px-4">
+          <h2 class="font-semibold">Shwe Kan Kaw</h2>
+        </div>
+        <div class="p-2">
+          <div class="btn btn-sm w-full text-white bg-orange-500">
+            <span class="solar--cart-bold"></span> <span id="call">Food Cart</span>
+          </div>
+        </div>
+      </div>
 
-  <div class="min-h-screen flex items-center justify-center">
-    <div class="max-w-lg w-full bg-white min-h-screen">
+      <!-- Caraousel Slider -->
+      <div class="carousel w-full h-32">
+        <div id="slide1" class="carousel-item relative w-full">
+          <img src="img/banner1.jpg" class="w-full h-full object-center object-cover" alt="Image Banner">
+          <div class="absolute flex justify-between transform -translate-1/2 left-5 right-5 top-1/2">
+            <a href="#slide2" class="btn btn-circle opacity-60 btn-sm">❮</a> 
+            <a href="#slide2" class="btn btn-circle opacity-60 btn-sm">❯</a>
+          </div>
+        </div>
+        <div id="slide2" class="carousel-item relative w-full">
+          <img src="img/banner2.jpg" class="w-full h-full object-center object-cover" alt="Image Banner">
+          <div class="absolute flex justify-between transform -translate-1/2 left-5 right-5 top-1/2">
+            <a href="#slide1" class="btn btn-circle opacity-60 btn-sm">❮</a> 
+            <a href="#slide1" class="btn btn-circle opacity-60 btn-sm">❯</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories List -->
+      <div class="flex items-center pt-1 px-2 pb-2 justify-center gap-x-2">
+        <button class="btn btn-sm bg-orange-500 text-white">Noodles</button>
+        <button class="btn btn-sm btn-ghost hover:text-orange-600">Appetite</button>
+        <button class="btn btn-sm btn-ghost hover:text-orange-600">Rices</button>
+        <button class="btn btn-sm btn-ghost hover:text-orange-600">Drinks</button>
+        <button class="btn btn-sm btn-ghost hover:text-orange-600">Dessert</button>
+      </div>
+
+      <div class="w-full flex justify-stretch item-center bg-orange-200 p-4 max-h-[63vh] h-full overflow-y-auto">
+        <div class="grid w-full lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-2">
+          <div for="item_modal" class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
+            <label for="item_modal">
+              <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
+              <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
+                <div class="font-semibold mb-1">Fish Curry Noodles</div>
+                <div class="text-xs">1100.00 Yen</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <input type="checkbox" id="item_modal" class="modal-toggle"/>
+      <div class="modal" role="dialog">
+        <div class="modal-box max-w-sm">
+          <label for="item_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+          <div class="flex items-center gap-x-3 mb-3">
+            <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl">A-10</h3>
+            <p class="font-semibold">Fish Curry Noodles</p>
+          </div>
+          <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all rounded-xl">
+          <div class="flex items-center justify-between mt-2">
+            <button class="btn bg-orange-500 btn-sm text-white">-</button>
+            <input type="number" value="0" class="input w-3/4 input-sm bg-base-200" readonly>
+            <button class="btn bg-orange-500 btn-sm text-white">+</button>
+          </div>
+          <button class="btn btn-sm w-full mt-3 text-white bg-orange-600 text-white">Add to Order Cart</button>
+        </div>
+      </div>
+
+      <div id="languages-content" class="absolute bottom-16 right-32">
+        <div class="w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center text-white shadow-xl">JP</div>
+      </div>
+      <div id="languages-content" class="absolute bottom-16 right-48">
+        <div class="w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center text-white shadow-xl">MM</div>
+      </div>
+      <div id="languages-content" class="absolute bottom-28 right-[10rem]">
+        <div class="w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center text-white shadow-xl">EN</div>
+      </div>  
       
-    </div>
-  </div>
-      <footer-component></footer-component>
+      <div class="fixed bottom-0 left-0 flex w-full items-center justify-center">
+        <div class="max-w-lg w-full p-2 bg-white rounded-t-xl shadow-2xl grid grid-cols-4 items-center gap-x-2">
+          <div class="btn btn-sm w-full">
+            <span class="ic--round-menu-book"></span> <span id="menu">Menu</span>
+          </div>
+          <div class="btn btn-sm w-full btn-ghost">
+            <span class="ic--round-shopping-cart-checkout"></span> <span id="checkout">Checkout</span>
+          </div>
+          <div class="btn btn-sm w-full btn-ghost" id="language-button">
+            <span class="tabler--language"></span> <span id="language">Language</span>
+          </div>
+          <div class="btn btn-sm w-full btn-ghost">
+            <span class="material-symbols--call"></span> <span id="call">Call</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- Swiper JS -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 </body>
 
 </html>
