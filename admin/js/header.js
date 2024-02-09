@@ -19,6 +19,8 @@ class Header extends HTMLElement {
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="index.html">Home</a>
             <a href="food_list.html">Food List</a>
+            <a href="user_registration.html">Add Staffs</a>
+            <a href="staff_list.html">Staffs List</a>
         </div> 
       `;
     }
