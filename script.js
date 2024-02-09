@@ -1,23 +1,3 @@
-//Model Box
-var modal = document.querySelector(".modal");
-var triggers = document.querySelectorAll(".trigger");
-var closeButton = document.querySelector(".close-button");
-function toggleModal() {
-  modal.classList.toggle("show-modal");
-}
-
-function windowOnClick(event) {
-  if (event.target === modal) {
-    toggleModal();
-  }
-}
-
-for (var i = 0, len = triggers.length; i < len; i++) {
-  triggers[i].addEventListener("click", toggleModal);
-}
-closeButton.addEventListener("click", toggleModal);
-window.addEventListener("click", windowOnClick);
-
 /*
  number increase/decrease 
 */
@@ -46,23 +26,25 @@ document.querySelectorAll('.orderedFood').forEach(orderedFood => {
   const increaseButton = orderedFood.querySelector('.increase');
   const quantityField = orderedFood.querySelector('.quantity');
 
-  decreaseButton.addEventListener('click', () => {
-    let quantity = parseInt(quantityField.value, 10);
-    if (quantity > 1) {
-      quantityField.value = quantity - 1;
-    }else{
-      // Hide or remove the product
-      orderedFood.style.display = 'none'; // Hides the product
-      // orderedFood.remove(); // Remove the product element from database
+  if(decreaseButton) {
+    decreaseButton.addEventListener('click', () => {
+      let quantity = parseInt(quantityField.value, 10);
+      if (quantity > 1) {
+        quantityField.value = quantity - 1;
+      } else {
+        orderedFood.style.display = 'none';
+      }
+    });
   }
-  });
 
-  increaseButton.addEventListener('click', () => {
-    let quantity = parseInt(quantityField.value, 10);
-    if (quantity < 5) {
-      quantityField.value = quantity + 1;
-    }
-  });
+  if(increaseButton) {
+    increaseButton.addEventListener('click', () => {
+      let quantity = parseInt(quantityField.value, 10);
+      if (quantity < 5) {
+        quantityField.value = quantity + 1;
+      }
+    });
+  }
 });
 
 /*Swiper*/

@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="style/msg-box-style.css" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   <script src="script.js" defer></script>
+  <script src="translation.js" type="text/javascript" defer></script>
   <script src="template/header.js" type="text/javascript" defer></script>
   <script src="template/footer.js" type="text/javascript" defer></script>
 </head>
@@ -45,13 +47,13 @@
           </div>
         </div>
         <fieldset style="background-color: #fff;">
-          <legend>Your Receipt</legend>
+          <legend id="your_receipt_content">Your Receipt</legend>
           <div class="component">
             <table>
               <tr>
-                <th>Food</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th><span id="food_header"></span></th>
+                <th><span id="quantity_header"></span></th>
+                <th><span id="price_header"></span></th>
               </tr>
               <tr class="orderedFood">
                 <td>
@@ -76,11 +78,11 @@
               <tr><td></td></tr>
               <tr><td></td></tr>
               <tr>
-                <td colspan="2" style="text-align: right;">Tax :</td>
+                <td colspan="2" style="text-align: right;"><span id="tax_footer"></span> :</td>
                 <td>+ 170</td>
               </tr>
               <tr>
-                <td colspan="2" style="text-align: right;">Total :</td>
+                <td colspan="2" style="text-align: right;"><span id="total_footer"></span> :</td>
                 <td>1870</td>
               </tr>
             </table>
@@ -96,6 +98,7 @@
       <footer-component></footer-component>
     </div>
   </div>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
 
 </html>

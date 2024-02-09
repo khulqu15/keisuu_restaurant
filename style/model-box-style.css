@@ -81,8 +81,8 @@
 .food .mb-component {
   position: absolute;
   width: 200px;
-  top: 21vw;
-  left: 4.6vw;
+  top: 43vw;
+  left: 11vw;
   background-color: var(--rgb255-255-255);
   border-radius: 13px;
   overflow: hidden;

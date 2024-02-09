@@ -12,6 +12,7 @@
   <!-- Add Swiper CSS -->
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   <script src="script.js" defer></script>
+  <script src="translation.js" type="text/javascript" defer></script>
   <script src="template/header.js" type="text/javascript" defer></script>
   <script src="template/footer.js" type="text/javascript" defer></script>
 </head>
@@ -31,13 +32,13 @@
                 <div class="overlap-group-fd">
                   <div class="mb-rectangle"></div>
                   <div class="mb-div"></div>
-                  <img class="kyar-san-chat11" src="img/ohn-no-khauk-swe.jpg" />
-                  <div class="mb-text-wrapper">Number of Order:</div>
-                  <div class="kyar-san-chat-12">A-01 <br>Coconut Milk<br />Noodle</div>
+                  <img class="kyar-san-chat11" id="image_modal" src="img/ohn-no-khauk-swe.jpg" />
+                  <div class="mb-text-wrapper" id="number_of_order-content">Number of Order:</div>
+                  <div class="kyar-san-chat-12"><span id="code_modal"></span> <br><span id="name_modal"></span></div>
                   <a href="index.html">
-                    <button class="mb-component">Add to Order List</button>
+                    <button class="mb-component" id="add_to_order_list-content">Add to Order List</button>
                   </a>
-                  <div class="mb-text-wrapper-3"><br /><br>1000 Yen</div>
+                  <div class="mb-text-wrapper-3"><br /><br><span id="price_modal"></span> Yen</div>
                   <div class="mb-rectangle-2"></div>
                   <div class="mb-component-2">
                     <form>
@@ -56,7 +57,7 @@
           </div>
         </div>
 
-        <nav class="navbar">
+        <nav class="navbar" id="nav-categories">
           <a href="#" onclick="openTab(0)" class="nav-item active">Noodles</a>
           <a href="#" onclick="openTab(1)" class="nav-item">Appetite</a>
           <a href="#" onclick="openTab(2)" class="nav-item">Rices</a>
@@ -67,7 +68,7 @@
         <div class="menuOverflow">
         <!-- Swiper -->
         <div class="swiper-container">
-          <div class="swiper-wrapper">
+          <div class="swiper-wrapper" id="food-list">
             <div class="swiper-slide">
               <div class="grid-container">
                 <div class="trigger">
@@ -122,10 +123,6 @@
                   <img src="img/tofu.jpg" class="food-img">
                   <p class="food-text">Fried Tofu <br> 700 Yen</p>
                 </div>
-                <div>
-                  <img src="img/wat-thar-kin.jpg" class="food-img">
-                  <p class="food-text">Grilled Pork <br> 700 Yen</p>
-                </div>
               </div>
             </div>
             <div class="swiper-slide">
@@ -179,7 +176,7 @@
       
       <div class="group">
         <div class="overlap-group">
-          <div class="text-wrapper">Table</div>
+          <div class="text-wrapper" id="table-content">Table</div>
           <div class="text-wrapper-2">7</div>
         </div>
       </div>
