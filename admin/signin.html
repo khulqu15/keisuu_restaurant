@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./js/jsbn.js"></script>
+    <script src="./js/jsbn2.js"></script>
+    <script src="./js/sjcl.js"></script>
+    <script src="./js/aws-sdk.min.js"></script>
+    <script src="./js/aws-cognito-sdk.min.js"></script>
+    <script src="./js/amazon-cognito-identity.min.js"></script>
+</head>
+
+<body>
+    <div id="signin">
+        <form name="form-signin">
+            <div class="sign-container">
+                <h1 class="title">User Login</h1>
+                <hr>
+                <div id="message"><span id="message-span"></span></div>
+                <label><b>Email Address</b></label>
+                <input type="text" id="email" placeholder="Enter Email..." name="email" required>
+
+                <label><b>Password</b></label>
+                <input type="password" id="password" placeholder="Enter Password..." name="psw" required>
+
+                <input type="button" id="signinButton" value="Login" />
+
+                <div class="signup">
+                    <p>Do not have an account? <a href="./signup.html">Sign Up!</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="./js/signin.js" defer></script>
+</body>
+
+</html>

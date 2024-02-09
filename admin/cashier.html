@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Today Sale</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="./js/jsbn.js"></script>
+  <script src="./js/jsbn2.js"></script>
+  <script src="./js/sjcl.js"></script>
+  <script src="./js/aws-sdk.min.js"></script>
+  <script src="./js/aws-cognito-sdk.min.js"></script>
+  <script src="./js/amazon-cognito-identity.min.js"></script>
+  <script src="js/header.js" type="text/javascript" defer></script>
+  <script src="js/script.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+  <header-component></header-component>
+  <div id="main">
+    <div id="dashboard-container">
+      <table class="noti_table" style="width: 70%;">
+        <thead>
+          <td colspan="4" style="background-color: rgb(255, 122, 122); color: #fff;">
+            <h1 class="title">Today's Orders List</h1>
+          </td>
+        </thead>
+        <tr>
+          <th>Tables</th>
+          <th>Foods</th>
+          <th>Total Price (Yen)</th>
+          <th>Payment Status</th>
+        </tr>
+        <tr>
+          <td>07</td>
+          <td>
+            2 * Kyar San Chat, <br>
+            1 * Grape Juice, <br>
+            1 * Coca-Cola
+          </td>
+          <td>2700</td>
+          <td><button class="button"><span>Checkout</span></button></td>
+        </tr>
+        <tr>
+          <td>03</td>
+          <td>
+            1 * Fried Rice and Egg, <br>
+            1 * Coca-Cola
+          </td>
+          <td>1000</td>
+          <td><button class="button"><span>Checkout</span></button></td>
+        </tr>
+        <tr>
+          <td>01</td>
+          <td>
+            1 * Grilled Pork, <br>
+            1 * Coca-Cola
+          </td>
+          <td>1000</td>
+          <td><button class="button"><span>Checkout</span></button></td>
+        </tr>
+        <!--tr>
+              <td colspan="4"><a href="unpaid.html">Show More...</a></td>
+            </tr-->
+      </table>
+
+      <br>
+      <table class="noti_table" style="width: 70%;">
+        <tr>
+          <th>Tables</th>
+          <th>Foods</th>
+          <th>Total Price (Yen)</th>
+          <th>Payment Status</th>
+        </tr>
+        <tr>
+          <td>05</td>
+          <td>
+            2 * Ohn No Khauk Swe, <br>
+            1 * Coffee, <br>
+            1 * Ice-cream
+          </td>
+          <td>1700</td>
+          <td style="color: red;">Paid</td>
+        </tr>
+        <tr>
+          <td>02</td>
+          <td>
+            1 * Ohn No Khauk Swe, <br>
+            1 * Water
+          </td>
+          <td>1000</td>
+          <td style="color: red;">Paid</td>
+        </tr>
+        <!--tr>
+              <td colspan="4"><a href="unpaid.html">Show More...</a></td>
+            </tr-->
+      </table>
+    </div>
+  </div>
+
+  <!--script src="./js/index.js" defer></script-->
+</body>
+
+</html>

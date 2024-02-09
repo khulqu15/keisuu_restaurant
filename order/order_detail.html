@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Food Order Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <div id="main">
+        <div class="container">
+            <h1 class="title">Ordered Food Lists from Table 7</h1>
+            <br>
+            <div class="responsive">
+                <div class="gallery">
+                    <img src="../img/wat-thar-kin.jpg">
+                    <div class="desc">Grilled Pork Sticks
+                        <p>Quantity : 1</p>
+                    </div>
+                    <div class="btnGroup">
+                        <button class="btnAction done">Done</button>
+                        <button class="btnAction reject">Reject</button>
+                    </div>
+                    <i class="fas fa-check-circle checkmark"></i>
+                    <i class="fas fa-times-circle crossmark"></i>
+                </div>
+            </div>
+            <div class="responsive">
+                <div class="gallery">
+                    <img src="../img/kyar-san-chat.jpg">
+                    <div class="desc">Kyar San Chat
+                        <p>Quantity : 2</p>
+                    </div>
+                    <div class="btnGroup">
+                        <button class="btnAction done">Done</button>
+                        <button class="btnAction reject">Reject</button>
+                    </div>
+                    <i class="fas fa-check-circle checkmark"></i>
+                    <i class="fas fa-times-circle crossmark"></i>
+                </div>
+            </div>
+
+            <div class="responsive">
+                <div class="gallery">
+                    <img src="../img/grapejuice.jpg">
+                    <div class="desc">Grape Juice
+                        <p>Quantity : 1</p>
+                    </div>
+                    <div class="btnGroup">
+                        <button class="btnAction done">Done</button>
+                        <button class="btnAction reject">Reject</button>
+                    </div>
+                    <i class="fas fa-check-circle checkmark"></i>
+                    <i class="fas fa-times-circle crossmark"></i>
+                </div>
+            </div>
+
+            <div class="responsive">
+                <div class="gallery">
+                    <img src="../img/cola.jpg">
+                    <div class="desc">Coca-Cola
+                        <p>Quantity : 1</p>
+                    </div>
+                    <div class="btnGroup">
+                        <button class="btnAction done">Done</button>
+                        <button class="btnAction reject">Reject</button>
+                    </div>
+                    <i class="fas fa-check-circle checkmark"></i>
+                    <i class="fas fa-times-circle crossmark"></i>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <a href="order_list.html"><input type="submit" value="Finish Order"></a>
+        </div>
+    </div>
+
+    <script>
+        /*
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get all the gallery items
+            var galleryItems = document.querySelectorAll('.gallery');
+
+            // Add click event listener to each gallery item
+            galleryItems.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    // Toggle the 'checked' class to show or hide the checkmark
+                    item.classList.toggle('checked');
+                });
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            var doneButtons = document.querySelectorAll('.done');
+            var rejectButtons = document.querySelectorAll('.reject');
+
+            doneButtons.forEach(function (btn) {
+                btn.addEventListener('click', function (event) {
+                    var gallery = btn.closest('.gallery');
+                    gallery.querySelector('.checkmark').style.display = 'block';
+                    gallery.querySelector('.crossmark').style.display = 'none';
+                    event.stopPropagation(); // Prevent gallery click event from firing
+                });
+            });
+
+            rejectButtons.forEach(function (btn) {
+                btn.addEventListener('click', function (event) {
+                    var gallery = btn.closest('.gallery');
+                    gallery.querySelector('.crossmark').style.display = 'block';
+                    gallery.querySelector('.checkmark').style.display = 'none';
+                    event.stopPropagation(); // Prevent gallery click event from firing
+                });
+            });
+        });*/
+
+        /*Prevent More Clicks*/
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var doneButtons = document.querySelectorAll('.done');
+            var rejectButtons = document.querySelectorAll('.reject');
+
+            doneButtons.forEach(function (btn) {
+                btn.addEventListener('click', function (event) {
+                    var gallery = btn.closest('.gallery');
+                    gallery.querySelector('.checkmark').style.display = 'block';
+                    gallery.querySelector('.crossmark').style.display = 'none';
+                    // Disable both buttons
+                    gallery.querySelector('.done').disabled = true;
+                    gallery.querySelector('.reject').disabled = true;
+                    event.stopPropagation(); // Prevent gallery click event from firing
+                });
+            });
+
+            rejectButtons.forEach(function (btn) {
+                btn.addEventListener('click', function (event) {
+                    var gallery = btn.closest('.gallery');
+                    gallery.querySelector('.crossmark').style.display = 'block';
+                    gallery.querySelector('.checkmark').style.display = 'none';
+                    // Disable both buttons
+                    gallery.querySelector('.done').disabled = true;
+                    gallery.querySelector('.reject').disabled = true;
+                    event.stopPropagation(); // Prevent gallery click event from firing
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

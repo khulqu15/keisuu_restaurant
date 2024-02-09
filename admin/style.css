@@ -1,0 +1,712 @@
+body {
+    background-color: #ffdbbc;
+    font-family: "Segoe UI-Semibold", Helvetica;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.body-img {
+    background-image: url('../img/foods.png');
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center center;
+    /* Centers the background image */
+}
+
+/*Admin Dashboard*/
+#dashboard-container {
+    margin: 100px auto;
+}
+
+/* Create two equal columns that floats next to each other */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+/* Create two equal columns that will stack on top of each other on small screens */
+.column {
+    flex: 50%;
+    padding-top: 10px;
+    /* Each column takes up 50% of the container */
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.noti_table {
+    margin: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 90%;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.noti_table th,
+.noti_table td {
+    padding: 16px;
+}
+
+.noti_table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.noti_table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.content {
+    position: relative;
+    max-width: 90%;
+    margin: 10px auto;
+    background: rgb(0, 0, 0);
+    /* Fallback color */
+    background: rgba(0, 0, 0, 0.5);
+    /* Black background with 0.5 opacity */
+    width: 100%;
+    padding: 50px;
+}
+
+.content a{
+    color: #fff;
+}
+
+.content a:hover{
+    text-decoration: underline;
+}
+/*End of Admin Dashboard*/
+
+/* Add padding to containers */
+.container {
+    margin: 80px auto;
+    padding: 30px;
+    width: 50%;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.list-container {
+    margin: 80px auto;
+    padding: 50px;
+    width: 70%;
+    background-color: white;
+    border-radius: 5px;
+    overflow-y: auto;
+    /* Enables vertical scrolling if the content is taller than max-height */
+}
+
+
+.sign-container {
+    margin: 50px auto;
+    padding: 30px;
+    width: 30%;
+    background-color: white;
+    border-radius: 5px;
+}
+
+/*for image upload*/
+#image {
+    display: none;
+    /* Hide the actual file input */
+}
+
+.image-preview-container {
+    position: relative;
+    width: 300px;
+    margin: auto;
+}
+
+#image-preview {
+    display: block;
+    /* Change to none if you don't want it displayed initially */
+    max-width: 100%;
+    /* Scale down if larger than the container */
+    height: auto;
+    /* Maintain aspect ratio */
+}
+
+.edit-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 25px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 15px;
+}
+
+
+.title,
+.subtitle {
+    text-align: center;
+}
+
+/* Full-width input fields */
+input[type=text],
+select,
+input[type=password] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+label {
+    padding: 30px 12px 12px 0;
+    display: inline-block;
+}
+
+input[type=submit],
+#signinButton,
+#createAccount {
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--rgb255-118-0);
+    border-radius: 50px;
+    border: 1px solid;
+    border-color: #ff7600;
+    box-sizing: border-box;
+    color: #ff7600;
+    padding: 10px 50px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+input[type=submit]:hover,
+#signinButton:hover,
+#createAccount:hover {
+    background-color: #ff7600;
+    color: #ffffff;
+}
+
+/* Overwrite default styles of hr */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+.signup {
+    text-align: center;
+}
+
+#message {
+    color: #ff0000;
+    text-align: center;
+}
+
+/*header*/
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 3.8em;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(52, 52, 52, 0.2), 0 3px 7px 0 rgba(61, 61, 61, 0.19);
+    position: absolute;
+}
+
+#header-title {
+    position: absolute;
+    left: 5em;
+}
+
+.dropdown {
+    float: right;
+    margin-right: 100px;
+    position: absolute;
+    top: 0.4em;
+    /* Align it to the top */
+    right: 0;
+    /* Align it to the right */
+}
+
+.img-profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    /* Align dropdown content to the right */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* Ensure the body takes the full viewport height */
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+#menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    padding-left: 2em;
+}
+
+/*sidebar*/
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.1s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-left .1s;
+    padding: 16px;
+}
+
+.button {
+    border-radius: 50px;
+    background-color: #ff7600;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 15px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 15px 30px;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+/*food list table*/
+.btnStatus {
+    border: none;
+    border-bottom: 1px solid;
+    padding: 5px 10px;
+    width: 100px;
+    color: #818181;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btnStatus.active {
+    background-color: rgb(0, 197, 30);
+    color: white;
+}
+
+.btnStatus.active .fa-check {
+    display: inline-block;
+}
+
+.no-stock.active {
+    background-color: red;
+}
+
+.fa-check {
+    display: none;
+    /* Hide the check icon by default */
+}
+
+#globalSearchInput {
+    background-image: url('/css/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+
+/* Style the tab */
+.tab {
+    float: left;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    margin: 10px 0px;
+    display: block;
+    background-color: #ff7600;
+    color: #FFFFFF;
+    padding: 17px 20px;
+    width: 100%;
+    border: none;
+    border-radius: 100px;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ff0000;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+    background-color: #ff0000;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    margin-left: 20px;
+    overflow-x: auto;
+    width: 82%;
+}
+
+#order-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ffecdc;
+    font-size: 16px;
+    margin: 50px auto;
+}
+
+.searchable-table {
+    margin: 10px auto;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ffecdc;
+    font-size: 16px;
+    overflow-x: auto;
+}
+
+#order-table th,
+#order-table td,
+.searchable-table th,
+.searchable-table td {
+    text-align: center;
+    /* Centers text horizontally */
+    vertical-align: middle;
+    /* Centers text vertically */
+    padding: 12px;
+}
+
+.searchable-table tr,
+#order-table tr {
+    border-bottom: 1px solid #ffecdc;
+}
+
+.searchable-table tr.table-header,
+#order-table tr.table-header {
+    background-color: #ffecdc;
+}
+
+#order-table td,
+.searchable-table td {
+    background-color: #ffffff;
+}
+
+.action-button {
+    background-color: var(--rgb255-118-0);
+    border: none;
+    box-sizing: border-box;
+    color: #ff5500;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.action-button,
+a {
+    text-decoration: none;
+}
+
+
+/*Model Image*/
+.modal-trigger {
+    cursor: pointer;
+    transition: 0.3s;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-size: cover;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Add Animation */
+.modal-content,
+#caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 50px;
+    right: 300px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .list-container {
+        width: 90%;
+        margin: auto;
+    }
+}
+
+/* Responsive media query for tablets */
+@media (max-width: 1080px) {
+
+    .container,
+    .sign-container {
+        width: 50%;
+    }
+
+    .list-container {
+        width: 90%;
+        margin: auto;
+    }
+
+    .tab {
+        display: flex;
+        /* Use flexbox to layout the tabs */
+        justify-content: center;
+        /* This will distribute space around the items */
+        align-items: center;
+        /* This will center the items vertically */
+        overflow: hidden;
+        /* Keeps the content from spilling out */
+        margin: auto;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: #ff7600;
+        /* Red */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 50px;
+        /* Rounded corners for the buttons */
+        margin: 0 5px;
+        /* Space out the buttons */
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ff0000;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ff0000;
+        /* Orange, for the active state */
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        margin: 20px auto;
+        border-top: none;
+        width: 100%;
+    }
+
+}
+
+/* Responsive media query for tablets */
+@media (max-width: 768px) {
+
+    .container,
+    .sign-container {
+        width: 60%;
+    }
+}
+
+/* Responsive media query for mobile devices */
+@media (max-width: 680px) {
+
+    .container,
+    .sign-container {
+        width: 75%;
+    }
+
+    .title {
+        font-size: 25px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+}
+
+/*for dashboard*/
+/* Responsive layout - makes a single column layout instead of two columns */
+@media screen and (max-width: 600px) {
+    .column {
+        flex: 100%;
+        /* Each column takes up 100% of the container on small screens */
+    }
+}

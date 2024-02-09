@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Food List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/header.js" type="text/javascript" defer></script>
+    <script src="js/script.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body class="body-img">
+    <header-component></header-component>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <div id="main">
+        <div class="list-container">
+            <h1 class="title">Food Lists</h1>
+            <hr>
+            <div class="tab">
+                <button class="tablinks" onclick="openCity(event, 'tab1')">Search</button>
+                <button class="tablinks" onclick="openCity(event, 'tab2')" id="defaultOpen">Noodle</button>
+                <button class="tablinks" onclick="openCity(event, 'tab3')">Appetite</button>
+                <button class="tablinks" onclick="openCity(event, 'tab4')">Rices</button>
+                <button class="tablinks" onclick="openCity(event, 'tab5')">Drinks</button>
+                <button class="tablinks" onclick="openCity(event, 'tab6')">Desserts</button>
+            </div>
+            <div class="tabcontent" id="tab1">
+                <input type="text" id="globalSearchInput" onkeyup="searchFunction()"
+                    placeholder="Search for food names...">
+                <table class="searchable-table">
+                    <tr>
+                        <td rowspan="5">Search Results will be shown Here.</td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="tabcontent" id="tab2">
+                <table class="searchable-table">
+                    <tr class="table-header">
+                        <th style="width:13%;">Food ID</th>
+                        <th style="width:10%;"></th>
+                        <th style="width:27%;">Food</th>
+                        <th style="width:15%;">Price(Yen)</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:20%;">Action</th>
+                    </tr>
+                    <tr>
+                        <td>A-01</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/kyar-san-chat.jpg" alt="kyar-san-chat">
+                        </td>
+                        <td>Kyar San Chat</td>
+                        <td>1000</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A-02</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/ohn-no-khauk-swe.jpg" alt="Coconut Milk Noodle">
+                        </td>
+                        <td>Coconut Milk Noodle</td>
+                        <td>1000</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tabcontent" id="tab3">
+                <table class="searchable-table">
+                    <tr class="table-header">
+                        <th style="width:13%;">Food ID</th>
+                        <th style="width:10%;"></th>
+                        <th style="width:27%;">Food</th>
+                        <th style="width:15%;">Price(Yen)</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:20%;">Action</th>
+                    </tr>
+                    <tr>
+                        <td>A-11</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/tofu.jpg" alt="kyar-san-chat">
+                        </td>
+                        <td>Fried Tofu</td>
+                        <td>1000</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A-12</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/wat-thar-kin.jpg" alt="Coconut Milk Noodle">
+                        </td>
+                        <td>Grilled Pork</td>
+                        <td>1000</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tabcontent" id="tab4">
+                <table class="searchable-table">
+                    <tr class="table-header">
+                        <th style="width:13%;">Food ID</th>
+                        <th style="width:10%;"></th>
+                        <th style="width:27%;">Food</th>
+                        <th style="width:15%;">Price(Yen)</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:20%;">Action</th>
+                    </tr>
+                    <tr>
+                        <td>A-21</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/tea_leaf_rice.jpg" alt="kyar-san-chat">
+                        </td>
+                        <td>Pickled Tea Leaf Rice</td>
+                        <td>1000</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A-22</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/fried-rice.jpg" alt="Coconut Milk Noodle">
+                        </td>
+                        <td>Fried Rice & Egg</td>
+                        <td>1000</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tabcontent" id="tab5">
+                <table class="searchable-table">
+                    <tr class="table-header">
+                        <th style="width:13%;">Food ID</th>
+                        <th style="width:10%;"></th>
+                        <th style="width:27%;">Food</th>
+                        <th style="width:15%;">Price(Yen)</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:20%;">Action</th>
+                    </tr>
+                    <tr>
+                        <td>A-31</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/cola.jpg" alt="kyar-san-chat">
+                        </td>
+                        <td>Coca-Cola</td>
+                        <td>300</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A-32</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/StrawberryJuice.jpg" alt="Coconut Milk Noodle">
+                        </td>
+                        <td>Strawberry Juice</td>
+                        <td>700</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A-33</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/mango.jpg" alt="Coconut Milk Noodle">
+                        </td>
+                        <td>Mango Juice</td>
+                        <td>700</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A-34</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/grapejuice.jpg" alt="Coconut Milk Noodle">
+                        </td>
+                        <td>Grape Juice</td>
+                        <td>700</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tabcontent" id="tab6">
+                <table class="searchable-table">
+                    <tr class="table-header">
+                        <th style="width:13%;">Food ID</th>
+                        <th style="width:10%;"></th>
+                        <th style="width:27%;">Food</th>
+                        <th style="width:15%;">Price(Yen)</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:20%;">Action</th>
+                    </tr>
+                    <tr>
+                        <td>A-14</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/ice-cream.jpg" alt="kyar-san-chat">
+                        </td>
+                        <td>Ice Cream</td>
+                        <td>700</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A-15</td>
+                        <td>
+                            <img class="modal-trigger" src="../img/cake.jpg" alt="Coconut Milk Noodle">
+                        </td>
+                        <td>Cake</td>
+                        <td>800</td>
+                        <td>
+                            <div class="status-buttons">
+                                <button class="btnStatus available active">Available <i
+                                        class="fas fa-check"></i></button>
+                                <button class="btnStatus no-stock">No Stock <i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="food_edit.html">
+                                <button class="action-button">Edit</button>
+                            </a>|
+                            <button class="action-button">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
