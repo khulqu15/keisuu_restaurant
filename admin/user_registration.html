@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/header.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+    <header-component></header-component>
+    <div id="main">
+        <form action="#">
+            <div class="container">
+                <h1 class="title">User Registration</h1>
+                <h5 class="subtitle">Please fill in this form to add new user.</h5>
+                <hr>
+                <br>
+                <label>User Name</label>
+                <input type="text" id="name" name="username" placeholder="Enter User Name..." required>
+
+                <label>User Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email..." required>
+
+                <label>Password</label>
+                <input type="password" id="psw" name="password" placeholder="Enter Password..." required>
+
+                <label>Role</label>
+                <select id="role" name="role" required>
+                    <option value="noodles">Cashier</option>
+                    <option value="appetite">Chef</option>
+                </select>
+                <input type="submit" value="Add User">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

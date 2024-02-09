@@ -9,7 +9,7 @@ body {
 }
 
 .body-img {
-    background-image: url('../img/foods.png');
+    background-image: url('../img/foods1.png');
     background-repeat: repeat;
     background-size: cover;
     background-position: center center;
@@ -153,6 +153,7 @@ body {
 
 /* Full-width input fields */
 input[type=text],
+input[type=email],
 select,
 input[type=password] {
     width: 100%;

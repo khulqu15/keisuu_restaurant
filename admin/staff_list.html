@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Staff Management</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./js/jsbn.js"></script>
+    <script src="./js/jsbn2.js"></script>
+    <script src="./js/sjcl.js"></script>
+    <script src="./js/aws-sdk.min.js"></script>
+    <script src="./js/aws-cognito-sdk.min.js"></script>
+    <script src="./js/amazon-cognito-identity.min.js"></script>
+    <script src="js/header.js" type="text/javascript" defer></script>
+    <script src="js/script.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <header-component></header-component>
+    <div id="main">
+        <div id="dashboard-container">
+            <table class="noti_table" style="width: 70%;">
+                <thead>
+                    <td colspan="5" style="background-color: rgb(38, 38, 38); color: #fff;">
+                        <h1 class="title">Staffs Management</h1>
+                    </td>
+                </thead>
+                <tr>
+                    <th style="width:10%;">No.</th>
+                    <th style="width:25%;">Staff Name</th>
+                    <th style="width:25%;">E-mail</th>
+                    <th style="width:15%;">Role</th>
+                    <th style="width:25%;">Action</th>
+                </tr>
+                <tr>
+                    <td>S1</td>
+                    <td>
+                        Jane
+                    </td>
+                    <td>jane@gmail.com</td>
+                    <td>Cashier</td>
+                    <td>
+                        <a href="edit_user.html">
+                            <button class="action-button" style="color: rgb(0, 171, 91);">Edit <i class="fas fa-edit"></i></button>
+                        </a>|
+                        <button class="action-button" style="color: #ff0000;">Delete <i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>S2</td>
+                    <td>
+                        Sam
+                    </td>
+                    <td>sam@gmail.com</td>
+                    <td>Chef</td>
+                    <td>
+                        <a href="edit_user.html">
+                            <button class="action-button" style="color: rgb(0, 171, 91);">Edit <i class="fas fa-edit"></i></button>
+                        </a>|
+                        <button class="action-button" style="color: #ff0000;">Delete <i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--script src="./js/index.js" defer></script-->
+</body>
+
+</html>
