@@ -140,7 +140,7 @@ class TranslationViewSet(viewsets.ModelViewSet):
     serializer_class = TranslationSerializer
     
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(self.get_queryset().order_by('id'))
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -205,12 +205,20 @@ def GetTable(request, restaurant_id):
             data = {
                 'is_reserved': True
             }
+            customer_data = {
+                'restaurant': restaurant_id,
+                'name': 'Customer Restaurant '+str(restaurant_id)
+            }
+            customer_serializer = CustomerSerializer(data=customer_data, partial=True)
+            if customer_serializer.is_valid():
+                customer_serializer.save()
             serializer = TableSerializer(tables, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return JsonResponse({
                     'status': "success",
-                    'data': serializer.data
+                    'table': serializer.data,
+                    'customer': customer_serializer.data
                 })
         else:
             return JsonResponse({
@@ -401,7 +409,7 @@ def PaidPayment(request, restaurant_id, payment_id):
             })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 def SetStatusOrder(request, restaurant_id, order_id):
     foodOrder = get_object_or_404(FoodOrder, pk=order_id)
     if request.method == 'POST':
@@ -416,6 +424,13 @@ def SetStatusOrder(request, restaurant_id, order_id):
                 'data': serializer.data 
             })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        foodOrder.delete()
+        return Response({
+            'status': 'success',
+            'message': 'Order deleted' 
+        })
 
 @api_view(['POST'])
 def SetStatusFood(request, restaurant_id, item_id):

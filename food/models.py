@@ -10,6 +10,8 @@ class StatusFoodChoice:
 class Category(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name="restaurant_category")
     name = models.CharField(max_length=255)
+    japan_name = models.CharField(max_length=255, blank=True)
+    myanmar_name = models.CharField(max_length=255, blank=True)
     def __str__(self):
         return self.name
     
