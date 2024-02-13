@@ -1,71 +1,217 @@
 <!DOCTYPE html>
-<html>
-
+<html data-theme="light" lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order List</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../style/icon.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body>
-    <div id="main">
-        <div class="container">
-            <h1 class="title">Ordered Lists</h1>
-            <hr>
-            <div class="order-container">
-                <a href="order_detail.html">
-                    <div class="img-container">
-                        <img src="../img/paper.png" class="img-paper">
-                        <div class="text-block">
-                            <h4>Table <br> 07</h4>
+    <div class="max-h-screen flex overflow-hidden justify-center bg-orange-100">
+        <div class="max-w-xl overflow-x-hidden relative bg-orange-100 w-full min-h-screen flex justify-center py-12 p-4">
+            <div class="w-full bg-gradient-to-b from-base-100 to-transparent rounded-2xl">
+                <div class="p-4">
+                    <div class="bg-orange-500 text-white inline-block px-4 py-2 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="icon-park-solid--transaction-order"></span>
+                            <div class="font-semibold">Order List</div>
                         </div>
                     </div>
-                </a>
-                <div class="img-container">
-                    <img src="../img/paper.png" class="img-paper">
-                    <div class="text-block">
-                        <h4>Table <br> 03</h4>
+                </div>
+                <div class="w-full min-h-[75svh] max-h-[75svh] rounded-b-2xl bg-base-100 overflow-x-hidden overflow-y-auto">
+                    <div class="grid p-4 lg:grid-cols-4 grid-cols-3 gap-3 w-full" id="order-content">
+                        <div class="w-full relative transition-all">
+                            <div class="w-full bg-orange-500 rounded-t-xl p-1 px-2 text-white text-sm">Table</div>
+                            <div class="w-full bg-orange-100 py-1 px-2 rounded-b-xl text-2xl">05</div>
+                        </div>
                     </div>
                 </div>
-                <div class="img-container">
-                    <img src="../img/paper.png" class="img-paper">
-                    <div class="text-block">
-                        <h4>Table <br> 08</h4>
+            </div>
+        </div>
+        <input type="checkbox" id="detail_modal" class="modal-toggle" />
+        <div class="modal" role="dialog">
+            <div class="modal-box max-w-xl">
+                <label for="detail_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+                <h3 class="font-bold text-lg">Ordered Food List from Table <span id="table_number_modal"></span></h3>
+                <div class="grid gap-3 lg:grid-cols-3 md:grid-cols-3 mt-3 grid-cols-2" id="food-order-content">
+                    <div class="w-full border rounded relative">
+                        <div class="absolute bg-orange-500 py-1 px-2 rounded text-lg text-white left-0 top-0">X3</div>
+                        <img src="../img/food.jpg" class="w-full h-24 object-cover object-center" alt="">
+                        <div class="p-2">
+                            <h1 class="text-sm font-semibold">Food Name Oishi</h1>
+                            <div class="flex items-center justify-between pt-3">
+                                <button class="btn bg-red-500 btn-sm border-0 text-white">Reject</button>
+                                <button class="btn bg-green-500 btn-sm border-0 text-white">Done</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="img-container">
-                    <img src="../img/paper.png" class="img-paper">
-                    <div class="text-block">
-                        <h4>Table <br> 01</h4>
-                    </div>
-                </div>
-                <div class="img-container">
-                    <img src="../img/paper.png" class="img-paper">
-                    <div class="text-block">
-                        <h4>Table <br> 05</h4>
-                    </div>
-                </div>
-                <div class="img-container">
-                    <img src="../img/paper.png" class="img-paper">
-                    <div class="text-block">
-                        <h4>Table <br> 06</h4>
-                    </div>
-                </div>
-                <div class="img-container">
-                    <img src="../img/paper.png" class="img-paper">
-                    <div class="text-block">
-                        <h4>Table <br> 10</h4>
-                    </div>
-                </div>
-                <div class="img-container">
-                    <img src="../img/paper.png" class="img-paper">
-                    <div class="text-block">
-                        <h4>Table <br> 02</h4>
-                    </div>
+                <div class="modal-action">
+                    <label for="detail_modal" class="btn bg-orange-500 text-white" id="delete-button" onclick="deleteOrder()">Finish Order</label>
                 </div>
             </div>
         </div>
     </div>
 </body>
-
 </html>
+
+<script>
+let domain_endpoint = 'http://localhost:8000'
+let order_content = document.getElementById('order-content')
+let orders = []
+let order_selected = {}
+let fetch_header = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+}
+
+function selectOrder(index) {
+    order_selected = orders[index]
+    if(order_selected) {
+        document.getElementById('table_number_modal').innerText = order_selected.table.number
+        let food_content = document.getElementById('food-order-content')
+        if(food_content) {
+            let food_content_html = ''
+            if(order_selected.foods.length > 0) {
+                order_selected.foods.map((el, idx) => {
+                    let order_data = order_selected.items.find((item) => item.food == el.id)
+                    console.log(order_data)
+                    food_content_html += `
+                    <div id="food-order-${el.id}" class="w-full transition-all border rounded relative">
+                        <div id="success-${el.id}" class="${order_data.status == 'accepted' ? 'bottom-20' : 'hidden bottom-0'} transition-all shadow-xl absolute left-0 z-[10] w-full flex items-center justify-center">
+                            <div class="bg-green-500 rounded-xl text-white p-3 flex items-cemnter">
+                                <span class="ep--success-filled"></span>
+                                <div>Accepted</div>
+                            </div>
+                        </div>
+                        <div id="reject-${el.id}" class="${order_data.status == 'rejected' ? 'bottom-20' : 'hidden bottom-0'} transition-all shadow-xl absolute left-0 z-[10] w-full flex items-center justify-center">
+                            <div class="bg-red-500 rounded-xl text-white p-3 flex items-cemnter">
+                                <span class="uis--times-circle"></span>
+                                <div>Rejected</div>
+                            </div>
+                        </div>
+                        <div class="absolute bg-orange-500 py-1 px-2 rounded text-lg text-white left-0 top-0">X${order_data ? order_data.quantity : '1'}</div>
+                        <img id="image-${el.id}" src="http://localhost:8000/${el.image}" class="${order_data.status == 'pending' ? '' : 'opacity-30'} w-full transition-all h-24 rounded object-cover object-center" alt="">
+                        <div id="content-${el.id}" class="${order_data.status == 'pending' ? '' : 'opacity-30'} p-2 trfansition-all">
+                            <h1 class="text-sm font-semibold">${el.name}</h1>
+                            <div class="flex items-center justify-between pt-3">
+                                <button id="reject-button-${el.id}" onclick="rejectOrder(${el.id}, ${order_data.id}, '${order_data.status}')" class="btn bg-red-500 btn-sm border-0 text-white">Reject</button>
+                                <button id="accept-button-${el.id}" onclick="acceptOrder(${el.id}, ${order_data.id}, '${order_data.status}')" class="btn bg-green-500 btn-sm border-0 text-white">Done</button>
+                            </div>
+                        </div>
+                    </div>`
+                }) 
+            } else {
+                food_content_html = `
+                <div class="lg:col-span-3 md:col-span-3 col-span-2 rounded-xl w-full bg-red-500 text-white p-3">
+                    There are no food
+                </div>
+                `
+            }
+            food_content.innerHTML = food_content_html
+        }
+        document.getElementById('detail_modal').click()
+    }
+}
+
+function rejectOrder(food_id, order_id, status) {
+    let food_cart = document.getElementById('food-order-'+food_id)
+    let orderIndex = order_selected.items.findIndex((item) => item.food == food_id)
+    if(status == 'pending') {
+        document.getElementById('image-'+food_id).classList.add('opacity-30')
+        document.getElementById('content-'+food_id).classList.add('opacity-30')
+        document.getElementById('reject-'+food_id).classList.remove('opacity-0', 'bottom-0', 'hidden')
+        document.getElementById('reject-'+food_id).classList.add('bottom-20')
+        document.getElementById('success-'+food_id).classList.add('opacity-0', 'bottom-0', 'hidden')
+        document.getElementById('success-'+food_id).classList.remove('bottom-20')
+        if(order_selected[orderIndex]) order_selected.items[orderIndex].status = 'rejected'
+    } else {
+        document.getElementById('image-'+food_id).classList.remove('opacity-30')
+        document.getElementById('content-'+food_id).classList.remove('opacity-30')
+        document.getElementById('reject-'+food_id).classList.add('opacity-0', 'bottom-0', 'hidden')
+        document.getElementById('reject-'+food_id).classList.remove('bottom-20')
+        if(order_selected[orderIndex]) order_selected.items[orderIndex].status = 'pending'
+    }
+    setStatuOrder(food_id, order_id, status == 'rejected' ? 'pending' : 'rejected')
+}
+
+function acceptOrder(food_id, order_id, status) {
+    let food_cart = document.getElementById('food-order-'+food_id)
+    let orderIndex = order_selected.items.findIndex((item) => item.food == food_id)
+    if(status == 'pending') {
+        document.getElementById('image-'+food_id).classList.add('opacity-30')
+        document.getElementById('content-'+food_id).classList.add('opacity-30')
+        document.getElementById('success-'+food_id).classList.remove('opacity-0', 'bottom-0', 'hidden')
+        document.getElementById('success-'+food_id).classList.add('bottom-20')
+        if(order_selected[orderIndex]) order_selected.items[orderIndex].status = 'accepted'
+    } else {
+        document.getElementById('image-'+food_id).classList.remove('opacity-30')
+        document.getElementById('content-'+food_id).classList.remove('opacity-30')
+        document.getElementById('success-'+food_id).classList.add('opacity-0', 'bottom-0', 'hidden')
+        document.getElementById('success-'+food_id).classList.remove('bottom-20')
+        if(order_selected[orderIndex]) order_selected.items[orderIndex].status = 'pending'
+    }
+    setStatuOrder(food_id, order_id, status == 'accepted' ? 'pending' : 'accepted')
+}
+
+function getData() {
+    fetch(domain_endpoint+'/api/1/chef/orders', {
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then((response) => { return response.json() })
+    .then((data) => {
+        orders = data.data
+        console.log(orders)
+        if(order_content) {
+            let order_content_html = ''
+            orders.map((element, index) => {
+                order_content_html += `
+                <div onclick="selectOrder(${index})" class="w-full relative transition-all cursor-pointer">
+                    <div class="w-full bg-orange-500 rounded-t-xl p-1 px-2 text-sm text-white flex items-center justify-between">
+                        <span>Table</span>
+                    </div>
+                    <div class="w-full transition-all bg-base-200 hover:shadow-xl py-1 px-2 rounded-b-xl text-2xl">${element.table.number < 10 ? '0'+element.table.number : element.table.number}</div>
+                </div>`
+            })
+            order_content.innerHTML = order_content_html
+        }
+    })
+}
+// <div class="p-1 rounded-lg bg-white text-xs ${element.status == 'pending' ? 'text-red-500' : element.status == 'progress' ? 'text-orange-500' : 'text-green-600'}">${element.status}</div>
+function deleteOrder() {
+    if(order_selected) {
+        fetch(domain_endpoint+'/api/1/chef/order/'+order_selected.id+'/', {
+            method: 'DELETE',
+            headers: fetch_header,
+        })
+        .then((response) => { return response.json() })
+        .then((data) => {
+            if(data.status == 'success') getData()
+        })
+    }
+    console.log(order_selected)
+}
+
+function setStatuOrder(food_id, order_id, status_order) {
+    // let order_item = order_selected[order_id].items
+    console.log(order_id)
+    fetch(domain_endpoint+'/api/1/chef/food/'+order_id+'/', {
+        method: 'POST',
+        headers: fetch_header,
+        body: JSON.stringify({
+            status: status_order
+        })
+    })
+    .then((response) => { return response.json() })
+    .then((data) => { console.log(data) })
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    getData()
+})
+</script>

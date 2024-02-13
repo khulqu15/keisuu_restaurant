@@ -25,7 +25,7 @@ function getTableData() {
       console.log(is_full)
       sessionStorage.setItem('credentials', JSON.stringify(data))
       if(is_full) {
-        document.getElementById('full_modal').click()
+        // document.getElementById('full_modal').click()
       } else {
         let table_number = parseInt(data.table.number)
         document.getElementById('table-pin-content').classList.remove('hidden')
