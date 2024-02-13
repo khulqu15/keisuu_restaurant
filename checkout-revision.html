@@ -279,8 +279,11 @@ if((foods_ordered != null || foods_ordered != undefined) && (ordered != null || 
   table_content += `</tbody></table>`
   let checkAllOrder = foods_ordered.filter((item) => item.status != 'pending' && item.status != 'progress')
   console.log(checkAllOrder)
-  if(checkAllOrder.length == foods_ordered.length) {
+  if(checkAllOrder.length != foods_ordered.length) {
     table_content += `
+    <div class="w-full text-white bg-green-600 shadow-xl rounded-xl text-xs mt-2 p-3">
+      <span class="font-bold">Please show this invoice to the cashier</span>, indicating that this is the bill for <span class="font-bold">table ${credentials.table.number}</span>
+    </div>
     <div class="text-right mt-4">
       <label for="paid_modal" class="btn w-1/2 bg-black rounded-xl btn-sm text-white hover:bg-black" id="paid-button">I already paid</label>
     </div>`
