@@ -387,14 +387,14 @@ function getData() {
         </div>`
       })
       content += `</div>`
-      //content += `<div class="flex mt-2 mb-1 justify-end items-center text-sm">
-      //  <div id="total_item_content">Total Item</div>
-      //  <div class="w-1/4 text-right font-bold">${sum_total_item}</div>
-      //</div>`
-      //content += `<div class="flex mb-1 justify-end items-center text-sm">
-      //  <div id="total_price_content">Total Price</div>
-      //  <div class="w-1/4 text-right font-bold">${new Intl.NumberFormat('ja-JP').format(sum_total_price)} Yen</div>
-      //</div>`
+      content += `<div class="flex mt-2 mb-1 justify-end items-center text-sm">
+        <div id="total_item_content">Total Item</div>
+        <div class="w-1/4 text-right font-bold">${sum_total_item}</div>
+      </div>`
+      content += `<div class="flex mb-1 justify-end items-center text-sm">
+        <div id="total_price_content">Total Price</div>
+        <div class="w-1/4 text-right font-bold">${new Intl.NumberFormat('ja-JP').format(sum_total_price)} Yen</div>
+      </div>`
       cart_content.innerHTML = content
       setTimeout(() => {
         if((ordered != null || ordered != undefined) && (foods_ordered != null || foods_ordered != undefined)) {
