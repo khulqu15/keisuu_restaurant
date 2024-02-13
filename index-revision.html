@@ -10,8 +10,10 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.2/dist/full.min.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="style/icon.css">
+  <script src="translation-revision.js" type="text/javascript" defer></script>
+  <script src="component.js" text="text/javascript" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="translation.js" type="text/javascript" defer></script>
+  
 </head>
 
 <body>
@@ -22,9 +24,36 @@
         <div class="py-2 px-4">
           <h2 class="font-semibold">Shwe Kan Kaw</h2>
         </div>
-        <div class="p-2">
-          <div class="btn btn-sm w-full text-white bg-orange-500">
-            <span class="solar--cart-bold"></span> <span id="call">Food Cart</span>
+        <div class="p-2 flex items-center gap-2 justify-end">
+          <div onclick="window.location.href = 'cart-revision.html'" id="food-cart-button" class="btn relative overflow-visible btn-sm text-white bg-orange-500">
+            <span class="solar--cart-bold"></span> <span id="food-cart">Food Cart</span>
+          </div>
+          <label for="exit_modal" id="exit_modal_btn" class="btn btn-sm bg-red-500 text-white">
+            <span class="ant-design--logout-outlined"></span> Exit
+          </label>
+        </div>
+      </div>
+
+      <input type="checkbox" id="exit_modal" class="modal-toggle">
+      <div class="modal" role="dialog">
+        <div class="modal-box max-w-sm">
+          <label for="exit_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+          <div class="text-center pt-5">
+            <div class="flex w-full items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-red-500 text-white justify-center flex items-center">
+                <span class="ant-design--logout-outlined"></span>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg">You wanna exit ?</h3>
+            <p class="pb-4 pt-1">If you exit, you will lost your table and foods</p>
+          </div>
+          <div class="modal-action grid grid-cols-2">
+            <div>
+              <label for="exit_modal" class="btn w-full">Cancel</label>
+            </div>
+            <div>
+              <label for="exit_modal" class="btn bg-red-500 text-white w-full" onclick="exitFromRestaurant()">Exit now</label>
+            </div>
           </div>
         </div>
       </div>
@@ -48,24 +77,99 @@
       </div>
 
       <!-- Categories List -->
-      <div class="flex items-center pt-1 px-2 pb-2 justify-center gap-x-2">
-        <button class="btn btn-sm bg-orange-500 text-white">Noodles</button>
-        <button class="btn btn-sm btn-ghost hover:text-orange-600">Appetite</button>
-        <button class="btn btn-sm btn-ghost hover:text-orange-600">Rices</button>
-        <button class="btn btn-sm btn-ghost hover:text-orange-600">Drinks</button>
-        <button class="btn btn-sm btn-ghost hover:text-orange-600">Dessert</button>
+      <div id="nav-categories" class="flex items-center pt-1 px-2 pb-2 justify-center no-scrollbar overflow-x-auto gap-x-2">
+        <button class="nav-item btn btn-sm bg-orange-500 text-white">Noodles</button>
+        <button class="nav-item btn btn-sm btn-ghost hover:text-orange-600">Appetite</button>
+        <button class="nav-item btn btn-sm btn-ghost hover:text-orange-600">Rices</button>
+        <button class="nav-item btn btn-sm btn-ghost hover:text-orange-600">Drinks</button>
+        <button class="nav-item btn btn-sm btn-ghost hover:text-orange-600">Dessert</button>
       </div>
 
-      <div class="w-full flex justify-stretch item-center bg-orange-200 p-4 max-h-[63vh] h-full overflow-y-auto">
-        <div class="grid w-full lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-2">
-          <div for="item_modal" class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
-            <label for="item_modal">
-              <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
-              <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
-                <div class="font-semibold mb-1">Fish Curry Noodles</div>
-                <div class="text-xs">1100.00 Yen</div>
+      <div class="w-full flex overflow-hidden justify-stretch item-center bg-gradient-to-b from-orange-200 to-orange-100 md:max-h-[63vh] max-h-[66vh] h-full overflow-y-auto">
+        <div class="grid w-full grid-cols-1 gap-x-2">
+          <div class="swiper-container">
+            <div class="swiper-wrapper" id="food-list">
+              <div class="swiper-slide">
+                <div class="grid lg:grid-cols-3 grid-cols-2 gap-x-2">
+                  <div class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
+                    <label for="item_modal">
+                      <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
+                      <div class="absolute top-0 left-0">
+                        <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl" >A-10</h3>
+                      </div>
+                      <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
+                        <div class="font-semibold mb-1">Fish Curry Noodles</div>
+                        <div class="text-xs">1100.00 Yen</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
               </div>
-            </label>
+              <div class="swiper-slide">
+                <div class="grid lg:grid-cols-3 grid-cols-2 gap-x-2">
+                  <div class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
+                    <label for="item_modal">
+                      <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
+                      <div class="absolute top-0 left-0">
+                        <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl">A-10</h3>
+                      </div>
+                      <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
+                        <div class="font-semibold mb-1">Fish Curry Noodles</div>
+                        <div class="text-xs">1100.00 Yen</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="grid lg:grid-cols-3 grid-cols-2 gap-x-2 p-2">
+                  <div class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
+                    <label for="item_modal">
+                      <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
+                      <div class="absolute top-0 left-0">
+                        <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl">A-10</h3>
+                      </div>
+                      <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
+                        <div class="font-semibold mb-1">Fish Curry Noodles</div>
+                        <div class="text-xs">1100.00 Yen</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="grid lg:grid-cols-3 grid-cols-2 gap-x-2">
+                  <div class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
+                    <label for="item_modal">
+                      <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
+                      <div class="absolute top-0 left-0">
+                        <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl">A-10</h3>
+                      </div>
+                      <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
+                        <div class="font-semibold mb-1">Fish Curry Noodles</div>
+                        <div class="text-xs">1100.00 Yen</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="grid lg:grid-cols-3 grid-cols-2 gap-x-2">
+                  <div class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
+                    <label for="item_modal">
+                      <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
+                      <div class="absolute top-0 left-0">
+                        <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl">A-10</h3>
+                      </div>
+                      <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
+                        <div class="font-semibold mb-1">Fish Curry Noodles</div>
+                        <div class="text-xs">1100.00 Yen</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -74,50 +178,220 @@
         <div class="modal-box max-w-sm">
           <label for="item_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
           <div class="flex items-center gap-x-3 mb-3">
-            <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl">A-10</h3>
-            <p class="font-semibold">Fish Curry Noodles</p>
+            <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl" id="code_modal">A-10</h3>
+            <p class="font-semibold" id="name_modal">Fish Curry Noodles</p>
+            <span id="food_id_modal" class="hidden"></span>
+            <span id="en_modal" class="hidden"></span>
+            <span id="ja_modal" class="hidden"></span>
+            <span id="mm_modal" class="hidden"></span>
           </div>
-          <img src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all rounded-xl">
+          <img id="image_modal" src="img/food.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all rounded-xl">
           <div class="flex items-center justify-between mt-2">
-            <button class="btn bg-orange-500 btn-sm text-white">-</button>
-            <input type="number" value="0" class="input w-3/4 input-sm bg-base-200" readonly>
-            <button class="btn bg-orange-500 btn-sm text-white">+</button>
+            <button id="decrement-button" class="btn bg-orange-500 btn-sm text-white">-</button>
+            <input id="unit-input" type="number" min="1" value="1" class="input w-3/4 input-sm bg-base-200">
+            <button id="increment-button" class="btn bg-orange-500 btn-sm text-white">+</button>
           </div>
-          <button class="btn btn-sm w-full mt-3 text-white bg-orange-600 text-white">Add to Order Cart</button>
+          <div class="grid grid-cols-2 mt-2">
+            <div>
+              <span class="text-xs">Price (Yen)</span>
+              <p class="font-semibold text-sm" id="price_modal"></p>
+            </div>
+            <div class="bg-base-200 rounded-xl px-2 py-1">
+              <span class="text-xs">Total (Yen)</span>
+              <p class="font-semibold text-sm" id="tmp_total_modal"></p>
+            </div>
+          </div>
+          <button id="add_to_order_list-content" class="btn btn-sm w-full mt-3 text-white bg-orange-600 text-white">Add to Order Cart</button>
         </div>
       </div>
 
-      <div id="languages-content" class="absolute bottom-16 right-32">
-        <div class="w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center text-white shadow-xl">JP</div>
+      <div id="jp-lang" class="absolute transition-all bottom-0 opacity-0 right-32 z-[15]">
+        <button onclick="changeLang('ja')" class="btn w-12 h-12 rounded-full bg-orange-600 hover:bg-orange-700 flex items-center justify-center text-white shadow-xl">JP</button>
       </div>
-      <div id="languages-content" class="absolute bottom-16 right-48">
-        <div class="w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center text-white shadow-xl">MM</div>
+      <div id="en-lang" class="absolute transition-all bottom-0 opacity-0 right-32 z-[15]">
+        <button onclick="changeLang('en')" class="btn w-12 h-12 rounded-full bg-orange-600 hover:bg-orange-700 flex items-center justify-center text-white shadow-xl">EN</button>
       </div>
-      <div id="languages-content" class="absolute bottom-28 right-[10rem]">
-        <div class="w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center text-white shadow-xl">EN</div>
+      <div id="mm-lang" class="absolute transition-all bottom-0 opacity-0 right-32 z-[15]">
+        <button onclick="changeLang('mm')" class="btn w-12 h-12 rounded-full bg-orange-600 hover:bg-orange-700 flex items-center justify-center text-white shadow-xl">MM</button>
       </div>  
       
-      <div class="fixed bottom-0 left-0 flex w-full items-center justify-center">
-        <div class="max-w-lg w-full p-2 bg-white rounded-t-xl shadow-2xl grid grid-cols-4 items-center gap-x-2">
-          <div class="btn btn-sm w-full">
-            <span class="ic--round-menu-book"></span> <span id="menu">Menu</span>
+      <div id="table-pin-content" class="transition-all absolute right-4 bottom-16 z-[15] hidden">
+        <div class="absolute right-6 -top-4 w-12 h-6 bg-orange-500 rounded-t-2xl">
+          <div class="absolute w-3 h-2 top-2 left-4 rounded-xl bg-orange-100"></div>
+        </div>
+        <div class="absolute right-5 -top-9">
+          <img src="img/pin.png" class="w-8" alt="">
+        </div>
+        <div class="w-24 h-20 rounded-xl bg-white">
+          <div class="w-full p-1 text-white rounded-lg bg-orange-500 flex justify-between items-center">
+            <span class="text-sm ml-2" id="table-content">Table</span>
+            <button class="p-1 py-0 bg-orange-500" id="table-pin-button">
+              <span id="table-pin-button-icon" class="transition-all mingcute--down-fill"></span>
+            </button>
           </div>
-          <div class="btn btn-sm w-full btn-ghost">
-            <span class="ic--round-shopping-cart-checkout"></span> <span id="checkout">Checkout</span>
+          <div class="text-4xl flex items-center justify-center font-semibold h-1/2" id="table_number">07</div>
+        </div>
+      </div>
+
+      <div class="fixed bottom-0 left-0 flex w-full items-center justify-center z-20">
+        <div class="max-w-lg w-full p-2 bg-white rounded-t-xl shadow-2xl grid grid-cols-4 items-center gap-x-2">
+          <button class="btn btn-sm w-full" onclick="window.location.href = 'index-revision.html'">
+            <span class="ic--round-menu-book md:inline-block hidden"></span> <span class="text-xs" id="menu">Menu</span>
+          </button>
+          <div class="btn btn-sm w-full btn-ghost" onclick="window.location.href = 'checkout-revision.html'">
+            <span class="ic--round-shopping-cart-checkout hidden"></span> <span class="text-xs" id="checkout">Checkout</span>
           </div>
           <div class="btn btn-sm w-full btn-ghost" id="language-button">
-            <span class="tabler--language"></span> <span id="language">Language</span>
+            <span class="tabler--language hidden"></span> <span class="text-xs" id="language">Language</span>
           </div>
           <div class="btn btn-sm w-full btn-ghost">
-            <span class="material-symbols--call"></span> <span id="call">Call</span>
+            <span class="material-symbols--call md:inline-block hidden"></span> <span class="text-xs" id="call">Call</span>
+          </div>
+        </div>
+      </div>
+
+      <input type="checkbox" id="full_modal" class="modal-toggle">
+      <div class="modal" role="dialog">
+        <div class="modal-box max-w-sm">
+          <div class="text-center pt-5">
+            <div class="flex w-full items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-red-500 text-white justify-center flex items-center">
+                <span class="solar--close-square-bold"></span>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg">Restaurant is full</h3>
+            <p class="pb-4 pt-1">There are no available tables left.</p>
+          </div>
+          <div class="modal-action grid grid-cols-2">
+            <div>
+              <button class="btn w-full" onclick="window.location.reload()">Reload</button>
+            </div>
+            <div>
+              <button onclick="exitRestaurant()" class="btn bg-red-500 text-white w-full">Exit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <input type="checkbox" id="out_of_stock_modal" class="modal-toggle">
+      <div class="modal" role="dialog">
+        <div class="modal-box max-w-sm">
+          <div class="text-center pt-5">
+            <div class="flex w-full items-center justify-center">
+                <div class="w-8 h-8 rounded-full bg-red-500 text-white justify-center flex items-center">
+                <span class="solar--close-square-bold"></span>
+                </div>
+            </div>
+            <h3 class="font-bold text-lg">The food is not available</h3>
+            <p class="pb-4 pt-1">Choose another available food</p>
+            </div>
+            <div class="modal-action grid grid-cols-1">
+            <div>
+                <label for="out_of_stock_modal" class="btn bg-red-500 text-white w-full">Go back</label>
+            </div>
           </div>
         </div>
       </div>
 
     </div>
   </div>
-
-
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
+</html> 
 
-</html>
+<script>
+let unit_value = 0
+
+function modifyUnit(type) {
+  let input = document.getElementById('unit-input')
+  let price = document.getElementById('price_modal')
+  let tmp_total = document.getElementById('tmp_total_modal')
+  
+  if(type == 'decrement') {
+    if(unit_value > 1) unit_value -= 1
+  }
+  else if(type == 'increment') unit_value += 1
+
+  let sum = parseFloat(price.innerText) * parseFloat(unit_value)
+  tmp_total.innerText = new Intl.NumberFormat('ja-JP').format(sum)
+  input.value = unit_value
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  let increment = document.getElementById('increment-button')
+  let decrement = document.getElementById('decrement-button')
+  let unitInput = document.getElementById('unit-input')
+  let orderButton = document.getElementById('add_to_order_list-content')
+
+  if(increment) increment.addEventListener('click', () => { modifyUnit('increment') })
+  if(decrement) decrement.addEventListener('click', () => { modifyUnit('decrement') })
+  if(unitInput) unitInput.addEventListener('input', () => {
+    unit_value = parseInt(unitInput.value)
+    let input = document.getElementById('unit-input')
+    let tmp_total = document.getElementById('tmp_total_modal')
+    let price = document.getElementById('price_modal')
+    let sum = parseFloat(input.value) * parseFloat(price.innerText)
+    tmp_total.innerText = new Intl.NumberFormat('ja-JP').format(sum)  
+  })
+
+  if(orderButton)
+    orderButton.addEventListener('click', () => {
+      let tmp_total = document.getElementById('tmp_total_modal')
+      let price_modal = document.getElementById('price_modal')
+      let name_modal = document.getElementById('name_modal')
+      let code_modal = document.getElementById('code_modal')
+      let unit_value_input = document.getElementById('unit-input')
+      let image_modal = document.getElementById('image_modal')
+      let food_id = document.getElementById('food_id_modal')
+      let ja = document.getElementById('ja_modal')
+      let en = document.getElementById('en_modal')
+      let mm = document.getElementById('mm_modal')
+      
+      let localData = JSON.parse(sessionStorage.getItem('foods')) || []
+      let data = {
+        total: tmp_total.innerText+'.00',
+        price: price_modal.innerText,
+        name: name_modal.innerText,
+        unit: unit_value_input.value,
+        code: code_modal.innerText,
+        en: en.innerText,
+        ja: ja.innerText,
+        mm: mm.innerText,
+        id: food_id.innerText,
+        image: image_modal.getAttribute('src')
+      }
+      if(localData.length > 0) {
+        let checkExistingData = localData.find((item) => item.id == food_id.innerText)
+        if(checkExistingData) {
+          let findIndex = localData.findIndex((item) => item.id == food_id.innerText)
+          if(findIndex != null || findIndex != undefined) {
+            let unit = parseInt(localData[findIndex].unit) 
+            let price = parseFloat(localData[findIndex].price) 
+            unit += parseInt(unit_value_input.value)
+            localData[findIndex].total = price * unit
+            localData[findIndex].unit = unit
+          }
+        } else {
+          localData.push(data)
+        }
+      } else {
+        localData.push(data)
+      }
+      unit_value_input.value = 1
+      unit_value = 1
+      sessionStorage.setItem('foods', JSON.stringify(localData))
+      if(localData.length > 0) {
+        let count_cart = document.getElementById('count_cart')
+        if(count_cart) count_cart.innerText = localData.length
+        else {
+          let food_cart_button = document.getElementById('food-cart-button')
+          let notify_div = document.createElement('div')
+          let content_cart = `<div id="count_cart" class="absolute -right-1 -top-1 w-6 h-6 rounded-xl flex items-center justify-center bg-red-500 border-2 border-white">${localData.length}</div>`
+          notify_div.innerHTML = content_cart
+          if(food_cart_button) food_cart_button.append(notify_div)
+        }
+      }
+      document.getElementById('item_modal').click()
+    })
+})
+</script>
