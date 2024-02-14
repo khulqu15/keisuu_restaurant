@@ -31,7 +31,7 @@ class OrderItem(models.Model):
     status = models.CharField(max_length=200, choices=StatusItem.CHOICES, default='pending', blank=True)
 
 class Payment(models.Model):
-    order = models.ForeignKey(OrderItem, on_delete=models.CASCADE, related_name="payment_order_item")
+    order = models.ForeignKey(FoodOrder, on_delete=models.CASCADE, related_name="payment_order_item")
     timestamp = models.DateTimeField()
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     is_paid = models.BooleanField(default=False, blank=True)

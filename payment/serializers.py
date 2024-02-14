@@ -7,11 +7,15 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = "__all__"
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = "__all__"
         
 class FoodOrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(source="order_item_food_order", many=True, required=False)
     foods = serializers.SerializerMethodField()
-
     class Meta:
         model = FoodOrder
         fields = "__all__"
@@ -20,8 +24,8 @@ class FoodOrderSerializer(serializers.ModelSerializer):
     def get_foods(self, obj):
         foods = [item.food for item in obj.order_item_food_order.all()]
         return FoodSerializer(foods, many=True).data
-
-class PaymentSerializer(serializers.ModelSerializer):
+    
+class FoodOrderSerializerPost(serializers.ModelSerializer):
     class Meta:
-        model = Payment
+        model = FoodOrder
         fields = "__all__"

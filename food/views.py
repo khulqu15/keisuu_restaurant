@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Food, Category, Translation
 from restaurant.models import Restaurant
-from payment.serializers import OrderItemSerializer, FoodOrderSerializer, PaymentSerializer
+from payment.serializers import OrderItemSerializer, FoodOrderSerializer, FoodOrderSerializerPost, PaymentSerializer
 from payment.models import OrderItem, FoodOrder, Payment
 from customer.models import Table, Customer
 from customer.serializers import TableSerializer, CustomerSerializer
@@ -334,7 +334,7 @@ def RequestOrder(request, restaurant_id):
             "order_time": request.data.get('order_time'),
             "status": request.data.get('status'),
         }
-        serializer = FoodOrderSerializer(data=data)
+        serializer = FoodOrderSerializerPost(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({
