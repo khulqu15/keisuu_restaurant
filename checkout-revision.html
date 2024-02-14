@@ -132,15 +132,15 @@
                 <span class="mingcute--send-fill"></span>
               </div>
             </div>
-            <h3 class="font-bold text-lg">Already Paid ?</h3>
-            <p class="pb-4 pt-1">You have paid your foods ?</p>
+            <h3 class="font-bold text-lg">Are you sure ?</h3>
+            <p class="pb-4 pt-1">Will you pay these foods now ?</p>
           </div>
           <div class="modal-action grid grid-cols-2">
             <div>
-              <label for="paid_modal" class="btn w-full">No, I have not</label>
+              <label for="paid_modal" class="btn w-full">Cancel</label>
             </div>
             <div>
-              <label for="paid_modal" class="btn bg-green-500 text-white w-full" onclick="paidFood()">Yes, I did it</label>
+              <label for="paid_modal" class="btn bg-green-500 text-white w-full" onclick="createPayment()">Yes</label>
             </div>
           </div>
         </div>
@@ -174,7 +174,7 @@
         </div>
       </div>
 
-      <div class="fixed bottom-0 left-0 flex w-full items-center justify-center">
+      <div class="fixed bottom-0 left-0 flex w-full items-center justify-center z-20">
         <div class="max-w-lg w-full p-2 bg-white rounded-t-xl shadow-2xl grid grid-cols-4 items-center gap-x-2">
           <button class="btn btn-sm w-full btn-ghost" onclick="window.location.href = 'index-revision.html'">
             <span class="ic--round-menu-book md:inline-block hidden"></span> <span class="text-xs" id="menu">Menu</span>
@@ -221,12 +221,13 @@
 let domain_endpoint = 'http://localhost:8000'
 let foods = JSON.parse(sessionStorage.getItem('foods'))
 let ordered = JSON.parse(sessionStorage.getItem('ordered'))
+console.log(ordered)
 let credentials = JSON.parse(sessionStorage.getItem('credentials'))
 let lang = sessionStorage.getItem('language')
 let foods_ordered = JSON.parse(sessionStorage.getItem('foods_ordered'))
 let table_checkout_content = document.getElementById('table-checkout-content')
+let sum_total = 0
 if((foods_ordered != null || foods_ordered != undefined) && (ordered != null || ordered != undefined)) {
-  let sum_total = 0
   let table_content = `
   <table class="table table-xs">
     <thead>
@@ -234,7 +235,6 @@ if((foods_ordered != null || foods_ordered != undefined) && (ordered != null || 
         <th></th>
         <th id="menu-header" class="text-black">Menu</th>
         <th id="quantity-header" class="text-black">Quantity</th>
-        <th id="quantity-header" class="text-black">Status</th>
         <th id="price-header" class="text-black text-right">Price</th>
       </tr>
     </thead>
@@ -253,24 +253,23 @@ if((foods_ordered != null || foods_ordered != undefined) && (ordered != null || 
           <div>${lang == 'en' ? element.en : lang == 'ja' ? element.ja : element.mm}</div>
         </div>
       </td>
-      <td>
-        <span class="uppercase px-2 rounded-xl text-xs bg- ${order_food.status == 'pending' ? 'bg-red-500 text-white' : order_food.status == 'progress' ? 'bg-yellow-500 text-black' : 'bg-green-500 text-white'}">
-          ${order_food.status}</td>
-        </span>
       <td>${element.unit}</td>
       <td class="text-right">${new Intl.NumberFormat('ja-JP').format(formatted_price)}.00</td>
     </tr>`
   })
+  //<td>
+  //  <span class="uppercase px-2 rounded-xl text-xs bg- ${order_food.status == 'pending' ? 'bg-red-500 text-white' : order_food.status == 'progress' ? 'bg-yellow-500 text-black' : 'bg-green-500 text-white'}">
+  //    ${order_food.status}</td>
+  //  </span>
+  // </td>
   table_content += `
   <tr>
-    <th></th>
     <th></th>
     <th></th>
     <th id="tax-header">Tax</th>
     <td class="text-right">100.00</td>
   </tr>
   <tr>
-    <th></th>
     <th></th>
     <th></th>
     <th id="total-header">Total</th>
@@ -281,11 +280,11 @@ if((foods_ordered != null || foods_ordered != undefined) && (ordered != null || 
   console.log(checkAllOrder)
   if(checkAllOrder.length != foods_ordered.length) {
     table_content += `
-    <div class="w-full text-white bg-green-600 shadow-xl rounded-xl text-xs mt-2 p-3">
-      <span class="font-bold">Please show this invoice to the cashier</span>, indicating that this is the bill for <span class="font-bold">table ${credentials.table.number}</span>
+    <div class="w-full text-white bg-green-600 shadow-xl rounded-xl text-xl mt-2 p-3">
+      <span class="font-bold">This is Table ${credentials.table.number}</span>, Please provide the table number at the payment counter </span>
     </div>
     <div class="text-right mt-4">
-      <label for="paid_modal" class="btn w-1/2 bg-black rounded-xl btn-sm text-white hover:bg-black" id="paid-button">I already paid</label>
+      <label for="paid_modal" class="btn w-1/2 bg-orange-500 rounded-xl btn-sm text-white hover:bg-black" id="paid-button">Checkout</label>
     </div>`
   }
   table_checkout_content.innerHTML = table_content
@@ -297,6 +296,26 @@ if((foods_ordered != null || foods_ordered != undefined) && (ordered != null || 
     </div>
   </div>`
   table_checkout_content.innerHTML = table_content
+}
+
+function createPayment() {
+  fetch(domain_endpoint+'/api/1/foods/pay/'+ordered.id+'/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      amount: (sum_total + 100)
+    })
+  })
+  .then((response) => { return response.json() })
+  .then((data) => {
+    console.log(data)
+    if(data.status == 'success') {
+      document.getElementById('success_modal').click()
+    }
+  })
 }
 
 function paidFood() {
