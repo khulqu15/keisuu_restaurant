@@ -1,0 +1,95 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="check-out">
+  <div class="div">
+    {% include 'customer/nav.html' %}
+    <header-component></header-component>
+    <div class="overlap">
+      <div class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <div class="msg">
+            <div class="overlap-wrapper-msg">
+              <div class="overlap-msg">
+                <div class="rectangle"></div>
+                <div class="div"></div>
+                <p class="your-order-is">
+                  Your order is Successfully submitted!<br />We hope you enjoy our delicacies.<br />Thank You for
+                  visiting Us
+                  ^.^
+                </p>
+                <a href="{% url 'index' %}">
+                  <button class="c-button">
+                    <div class="text-wrapper">Close</div>
+                  </button>
+                </a>
+                <img class="cooking" src="{% static 'images/cooking.png' %}" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <fieldset>
+        <legend>Your Order List</legend>
+        <div class="component">
+          <table>
+            <tr>
+              <th>Food</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+            <tr class="orderedFood">
+              <td>
+                <img class="food-img" src="{% static 'images/ohn-no-khauk-swe.jpg'%}" />
+                <p class="food-name">Coconut Milk Noodle</p>
+              </td>
+              <td>
+                <div class="foodQty">
+                  <div class="decrease"><img class="ic-remove-circle"
+                      src="{% static 'images/ic-remove-circle-outline-24px-2.svg' %}" /></div>
+                  <input type="text" class="quantity" value="2" id="number">
+                  <div class="increase"><img class="ic-add-circle" src="{% static 'images/ic-add-circle-outline-24px-2.svg' %}" />
+                  </div>
+                </div>
+              </td>
+              <td>1000</td>
+            </tr>
+            <tr class="orderedFood">
+              <td>
+                <img class="food-img" src="{% static 'images/grapejuice.jpg' %}" />
+                <p class="food-name">Grape Juice</p>
+              </td>
+              <td>
+                <div class="foodQty">
+                  <div class="decrease"><img class="ic-remove-circle"
+                      src="{% static 'images/ic-remove-circle-outline-24px-2.svg' %} " /></div>
+                  <input type="text" class="quantity" value="1" id="number">
+                  <div class="increase"><img class="ic-add-circle" src="{% static 'images/ic-add-circle-outline-24px-2.svg' %}" />
+                  </div>
+                </div>
+              </td>
+              <td>700</td>
+            </tr>
+          </table>
+        </div>
+        <img class="menu" src="{% static 'images/menu.png' %}" />
+
+        <button class="button trigger">
+          <div class="text-wrapper">Confirm</div>
+        </button>
+      </fieldset>
+      <div class="overlap-wrapper">
+        <div class="overlap-3">
+          <div class="text-wrapper-7">Table</div>
+          <div class="text-wrapper-8">7</div>
+        </div>
+      </div>
+    </div>
+    
+    <footer-component></footer-component>
+  </div>
+</div>
+{% endblock content %}

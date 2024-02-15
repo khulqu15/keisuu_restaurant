@@ -1,0 +1,14 @@
+{% load static %}
+
+<img class="announcement" src="{% static 'images/announcement.png' %}" alt="Announcement"/>
+<header class="header">
+    <div class="overlap-4">
+        <div class="site-title">Keisuu Restaurant</div>
+        <a href="{% url 'checkout' %}">
+            <div class="div-2">
+                <div class="text-check-out">Check Out</div>
+                <img class="ic-shopping-cart" src="{% static 'images/ic-shopping-cart-24px.svg' %}" />
+            </div>
+        </a>
+    </div>
+</header>
