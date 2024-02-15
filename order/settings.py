@@ -1,6 +1,7 @@
 import os
 from corsheaders.middleware import CorsMiddleware
 from pathlib import Path
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,7 +9,7 @@ SECRET_KEY = "django-insecure-gz2kxg5#!t6u9kcnx89q$=k/n-3!ni7w80c4_5ulkpf(ze%f7#
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]").split(",")
 
 INSTALLED_APPS = [
     'payment',
@@ -63,17 +64,21 @@ TEMPLATES = [
 WSGI_APPLICATION = "order.wsgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": 'db_restaurant',
-        "USER": 'postgres',
-        "PASSWORD": '12345678',
-        "HOST": 'localhost',
-        "PORT": '5432',
-        "OPTIONS": {
-            'options': '-c timezone=UTC'
-        },
-    }
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": 'db_restaurant',
+    #     "USER": 'postgres',
+    #     "PASSWORD": '12345678',
+    #     "HOST": 'localhost',
+    #     "PORT": '5432',
+    #     "OPTIONS": {
+    #         'options': '-c timezone=UTC'
+    #     },
+    # },
+    'default': dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    ),
 }
 
 
