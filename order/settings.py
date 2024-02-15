@@ -98,11 +98,11 @@ WSGI_APPLICATION = "order.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.environ.get('DB_NAME', 'ebdb'),
-        "USER": os.environ.get('DB_USER', 'restaurantorder'),
-        "PASSWORD": os.environ.get('DB_PASSWORD', 'restaurantorder'),
+        "NAME": 'ebdb',
+        "USER": 'restaurantorder',
+        "PASSWORD": 'restaurantorder',
         "HOST": os.environ.get('DATABASE_URL', 'http://awseb-e-2wtjngkmrd-stack-awsebrdsdatabase-hxhbzx05f08n.csmoyqa0ucup.ap-northeast-3.rds.amazonaws.com/'),
-        "PORT": os.environ.get('DB_PORT', '5432'),
+        "PORT": '5432',
     }
     # "default": env.db(),
     # "extra": {
