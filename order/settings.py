@@ -36,7 +36,7 @@ SECRET_KEY = "django-insecure-gz2kxg5#!t6u9kcnx89q$=kn-3!ni7w80c4_5ulkpf(ze%f7#c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['restaurant-order-dev.eba-pwr2wnbz.ap-northeast-3.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['keisuu-restaurant-order.ap-northeast-3.elasticbeanstalk.com']
 
 SECRET_KEY = env('SECRET_KEY')
 
