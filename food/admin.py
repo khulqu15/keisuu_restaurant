@@ -5,15 +5,14 @@ from import_export.admin import ImportExportModelAdmin
 from . import models
 
 
-@admin.register(models.Restaurant)
-class RestaurantAdmin(ImportExportModelAdmin):
+@admin.register(models.Category)
+class CategorymerAdmin(ImportExportModelAdmin):
     date_heirarchy = (
         'updated_at',
     )
     list_display = (
+        'restaurant',
         'name',
-        'address',
-        'code',
         'created_at',
         'updated_at'
     )
@@ -22,17 +21,22 @@ class RestaurantAdmin(ImportExportModelAdmin):
     )
 
 
-@admin.register(models.RestaurantStaff)
-class RestaurantStaffAdmin(ImportExportModelAdmin):
+@admin.register(models.Food)
+class FoodvationAdmin(ImportExportModelAdmin):
     date_heirarchy = (
         'updated_at',
     )
     list_display = (
         'restaurant',
+        'category',
         'name',
-        'phone',
-        'password',
-        'address',
+        'japan_name',
+        'myanmar_name',
+        'status',
+        'price',
+        'description',
+        'image',
+        'food_id',
         'created_at',
         'updated_at'
     )
@@ -41,17 +45,15 @@ class RestaurantStaffAdmin(ImportExportModelAdmin):
     )
 
 
-@admin.register(models.KitchenStaff)
-class KitchenStaffAdmin(ImportExportModelAdmin):
+@admin.register(models.Translation)
+class TranslationAdmin(ImportExportModelAdmin):
     date_heirarchy = (
         'updated_at',
     )
     list_display = (
-        'restaurant',
-        'name',
-        'phone',
-        'password',
-        'address',
+        'english',
+        'japan',
+        'myanmar',
         'created_at',
         'updated_at'
     )

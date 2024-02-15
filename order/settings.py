@@ -38,10 +38,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'payment',
-    'food',
-    'customer',
-    'restaurant',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -49,6 +45,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "corsheaders",
+    
+    'django_extensions',
+    'import_export',
+    
+    'payment',
+    'food',
+    'customer',
+    'restaurant',
 ]
 
 MIDDLEWARE = [

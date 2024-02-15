@@ -4,3 +4,10 @@
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 .env
+
+__pycache__
+*.py[co]
+*.so
+*.egg
+*.egg-info
+venv

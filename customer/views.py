@@ -1,8 +1,11 @@
 from django.shortcuts import render
+
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+
 from .models import Customer, Reservation, Table
 from .serializers import CustomerSerializer, ReservationSerializer, TableSerializer
+
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
