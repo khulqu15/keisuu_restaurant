@@ -198,10 +198,10 @@ class TranslationViewSet(viewsets.ModelViewSet):
         
         
 @api_view(['GET'])
-def GetTable(request, restaurant_id):
+def GetTable(request, restaurant_id, table_id):
     if request.method == 'GET':
-        tables = Table.objects.filter(is_reserved=False).first()
-        if tables is not None:
+        table = get_object_or_404(Table, pk=table_id)
+        if table is not None:
             data = {
                 'is_reserved': True
             }
@@ -212,7 +212,7 @@ def GetTable(request, restaurant_id):
             customer_serializer = CustomerSerializer(data=customer_data, partial=True)
             if customer_serializer.is_valid():
                 customer_serializer.save()
-            serializer = TableSerializer(tables, data=data, partial=True)
+            serializer = TableSerializer(table, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return JsonResponse({

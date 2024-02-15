@@ -9,7 +9,7 @@ router.register(r'translation', TranslationViewSet)
 
 urlpatterns = [
     path('admin/', include(router.urls)),
-    path('<int:restaurant_id>/table/', GetTable),
+    path('<int:restaurant_id>/table/<int:table_id>/', GetTable),
     path('<int:restaurant_id>/table/<int:table_id>/done/', SetTableAvailable),
     path('<int:restaurant_id>/customer/', RequestNewCustomer),
     path('<int:restaurant_id>/customer/<int:customer_id>/end/', DeleteEndedCustomer),
