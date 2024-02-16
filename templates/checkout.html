@@ -1,0 +1,198 @@
+{% extends 'layout/customer.html' %}
+
+{% block content %}
+<div class="w-full min-h-[72vh] bg-gradient-to-b from-orange-200 to-orange-100 p-4 pb-[10rem]">
+    <div class="bg-orange-500 inline-block px-4 py-2 rounded-xl text-white font-bold mb-2">
+        <div class="flex items-center gap-x-3">
+            <span class="fluent--receipt-16-filled"></span> <span id="your_receipt_content">Your Receipt</span>
+        </div>
+    </div>
+    <div class="p-3 rounded-xl bg-white" id="checkout-body-content">
+        <div class="overflow-x-auto" id="table-checkout-content">
+            <table class="table table-xs">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th id="menu-header" class="text-black">Menu</th>
+                  <th id="quantity-header" class="text-black">Quantity</th>
+                  <th id="price-header" class="text-black text-right">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>1</th>
+                  <td>Beef Rices Noodles</td>
+                  <td>1</td>
+                  <td class="text-right">1100.00</td>
+                </tr>
+                <tr>
+                  <th>2</th>
+                  <td>Nasi Goreng</td>
+                  <td>1</td>
+                  <td class="text-right">1100.00</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th id="tax-header">Tax</th>
+                    <td class="text-right">10.00</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th id="total-header">Total</th>
+                    <td class="text-right">2210.00</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="paid_modal" class="modal-toggle">
+  <div class="modal" role="dialog">
+    <div class="modal-box max-w-sm">
+      <label for="paid_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+      <div class="text-center pt-5">
+        <div class="flex w-full items-center justify-center">
+          <div class="w-8 h-8 rounded-full bg-green-500 text-white justify-center flex items-center">
+            <span class="mingcute--send-fill"></span>
+          </div>
+        </div>
+        <h3 class="font-bold text-lg">Are you sure ?</h3>
+        <p class="pb-4 pt-1">Will you pay these foods now ?</p>
+      </div>
+      <div class="modal-action grid grid-cols-2">
+        <div>
+          <label for="paid_modal" class="btn w-full">Cancel</label>
+        </div>
+        <div>
+          <label for="paid_modal" class="btn bg-green-500 text-white w-full" onclick="createPayment()">Yes</label>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    let foods = JSON.parse(sessionStorage.getItem('foods'))
+    let ordered = JSON.parse(sessionStorage.getItem('ordered'))
+    let credentials = JSON.parse(sessionStorage.getItem('credentials'))
+    let lang = sessionStorage.getItem('language')
+    let foods_ordered = JSON.parse(sessionStorage.getItem('foods_ordered'))
+    let table_checkout_content = document.getElementById('table-checkout-content')
+    let sum_total = 0
+    if((foods_ordered != null || foods_ordered != undefined) && (ordered != null || ordered != undefined)) {
+      let table_content = `
+      <table class="table table-xs">
+        <thead>
+          <tr>
+            <th></th>
+            <th id="menu-header" class="text-black">Menu</th>
+            <th id="quantity-header" class="text-black">Quantity</th>
+            <th id="price-header" class="text-black text-right">Price</th>
+          </tr>
+        </thead>
+        <tbody>`
+      foods.map((element, index) => {
+        let string_price = element.total.toString()
+        let formatted_price = parseFloat(string_price.replace(',', ''))
+        let order_food = foods_ordered.find((item) => item.food == element.id)
+        sum_total += formatted_price
+        table_content += `
+        <tr>
+          <th>${index + 1}</th>
+          <td>
+            <div class="flex items-center gap-2">
+              <img src="${element.image}" class="w-10 h-10 rounded-xl object-cover object-center"/>
+              <div>${lang == 'en' ? element.en : lang == 'ja' ? element.ja : element.mm}</div>
+            </div>
+          </td>
+          <td>${element.unit}</td>
+          <td class="text-right">${new Intl.NumberFormat('ja-JP').format(formatted_price)}.00</td>
+        </tr>`
+      })
+      //<td>
+      //  <span class="uppercase px-2 rounded-xl text-xs bg- ${order_food.status == 'pending' ? 'bg-red-500 text-white' : order_food.status == 'progress' ? 'bg-yellow-500 text-black' : 'bg-green-500 text-white'}">
+      //    ${order_food.status}</td>
+      //  </span>
+      // </td>
+      table_content += `
+      <tr>
+        <th></th>
+        <th></th>
+        <th id="tax-header">Tax</th>
+        <td class="text-right">100.00</td>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th id="total-header">Total</th>
+        <td class="text-right">${new Intl.NumberFormat('ja-JP').format((sum_total + 100))}.00</td>
+      </tr>`
+      table_content += `</tbody></table>`
+      let checkAllOrder = foods_ordered.filter((item) => item.status != 'pending' && item.status != 'progress')
+      console.log(checkAllOrder)
+      if(checkAllOrder.length != foods_ordered.length) {
+        table_content += `
+        <div class="w-full text-white bg-green-600 shadow-xl rounded-xl text-xl mt-2 p-3">
+          <span class="font-bold">This is Table ${credentials.table.number}</span>, Please provide the table number at the payment counter </span>
+        </div>
+        <div class="text-right mt-4">
+          <label for="paid_modal" class="btn w-1/2 bg-orange-500 rounded-xl btn-sm text-white hover:bg-black" id="paid-button">Checkout</label>
+        </div>`
+      }
+      table_checkout_content.innerHTML = table_content
+    } else {
+        document.getElementById('checkout-body-content').classList.remove('p-3', 'bg-white')
+        let table_content = `<div class="flex w-full items-center justify-center py-4">
+        <div class="w-full bg-red-500 p-4 rounded-xl text-white flex items-center justify-between">
+          <p>You never checkout some food</p>
+          <a href="{% url 'home' restaurant_id=restaurant.id table_id=table.id %}" class="btn bg-white text-red-500 hover:bg-white/70 btn-sm border-0">Menu</a>
+        </div>
+      </div>`
+      table_checkout_content.innerHTML = table_content
+    }
+    
+    function createPayment() {
+      fetch('/api/1/foods/pay/'+ordered.id+'/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: (sum_total + 100)
+        })
+      })
+      .then((response) => { return response.json() })
+      .then((data) => {
+        console.log(data)
+        if(data.status == 'success') {
+          document.getElementById('success_modal').click()
+        }
+      })
+    }
+    
+    function paidFood() {
+      fetch('/api/1/table/'+credentials.table.id+'/done/', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+      .then((response) => { return response.json() })
+      .then((data) => {
+        if(data.status == 'success') {
+          sessionStorage.removeItem('foods')
+          sessionStorage.removeItem('ordered')
+          sessionStorage.removeItem('credentials')
+          sessionStorage.removeItem('language')
+          sessionStorage.removeItem('checkout')
+          document.getElementById('success_modal').click()
+        }
+      })
+    }
+</script>
+{% endblock %}

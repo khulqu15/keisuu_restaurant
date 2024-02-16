@@ -1,0 +1,279 @@
+{% extends 'layout/customer.html' %}
+
+{% block content %}
+<div class="w-full min-h-[72vh] pb-32 bg-gradient-to-b from-orange-200 to-orange-100 p-4">
+    <div class="bg-orange-500 inline-block px-4 py-2 rounded-xl text-white font-bold mb-2">
+        <div class="flex items-center gap-x-3">
+            <span class="fluent--receipt-16-filled"></span> <span id="your_order_list">Your Order List</span>
+        </div>
+    </div>
+    <div id="cart-content">
+      
+    </div>
+    <div class="flex items-center justify-end mt-3" id="submit-button">
+        <label for="submit_modal" class="w-1/2 btn bg-black text-white btn-sm rounded-xl border-0 hover:bg-black"><span class="mingcute--send-fill"></span> <span id="submit">Submit</span></label>
+    </div>
+    <input type="checkbox" id="submit_modal" class="modal-toggle">
+      <div class="modal" role="dialog">
+        <div class="modal-box max-w-sm">
+          <label for="submit_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+          <div class="text-center pt-5">
+            <div class="flex w-full items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-green-500 text-white justify-center flex items-center">
+                <span class="mingcute--send-fill"></span>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg">Are you sure for submit ?</h3>
+            <p class="pb-4 pt-1">The food will be submitted</p>
+          </div>
+          <div class="modal-action grid grid-cols-2">
+            <div>
+              <label for="submit_modal" class="btn w-full">Cancel</label>
+            </div>
+            <div>
+              <label for="submit_modal" class="btn bg-green-500 text-white w-full" onclick="submitCart()">Submit</label>
+            </div>
+          </div>
+        </div>
+    </div>
+    <input type="checkbox" id="submitted_modal" class="modal-toggle">
+    <div class="modal" role="dialog">
+        <div class="modal-box max-w-sm">
+          <label for="submitted_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+          <div class="text-center pt-5">
+            <div class="flex w-full items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-green-500 text-white justify-center flex items-center">
+                <span class="mingcute--send-fill"></span>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg">Your order has been submitted</h3>
+            <p class="pb-4 pt-1">Please waiting, we will process your order</p>
+          </div>
+          <div class="modal-action grid grid-cols-1">
+            <div>
+              <a href="{% url 'checkout' restaurant_id=restaurant.id table_id=table.id %}" for="submitted_modal" class="btn bg-green-500 text-white w-full">Checkout page</a>
+            </div>
+          </div>
+        </div>
+    </div>
+    <input type="checkbox" id="delete_modal" class="modal-toggle">
+      <div class="modal" role="dialog">
+        <div class="modal-box max-w-sm">
+          <label for="delete_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+          <div class="text-center pt-5">
+            <div class="flex w-full items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-red-500 text-white justify-center flex items-center">
+                <span class="fluent--delete-12-filled"></span>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg">Are you sure for delete ?</h3>
+            <p class="pb-4 pt-1">The food will be removed from food cart</p>
+          </div>
+          <div class="modal-action grid grid-cols-2">
+            <div>
+              <label for="delete_modal" class="btn w-full">Cancel</label>
+            </div>
+            <div>
+              <label for="delete_modal" onclick="removeFood()" class="btn bg-red-500 text-white w-full">Remove</label>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+let cart_data = JSON.parse(sessionStorage.getItem('foods')) || []
+let cart_content = document.getElementById('cart-content')
+let ordered = JSON.parse(sessionStorage.getItem('ordered'))
+let foods_ordered = JSON.parse(sessionStorage.getItem('foods_ordered'))
+let default_language = sessionStorage.getItem('language') || 'en'
+let fetch_header = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+}
+let subtotal_lang = JSON.parse(sessionStorage.getItem('checkout')) || {
+  english: 'Subtotal',
+}
+
+function getParameter(param) {
+  let pageUrl = window.location.search.substring(1)
+  let urlVariables = pageUrl.split('&')
+  for(let i=0; i<urlVariables.length; i++) {
+    let parameterName = urlVariables[i].split('=')
+    if(parameterName[0] == param) return parameterName[1]
+  }
+}
+
+function increase(food_id) {
+  if(cart_data.length > 0) {
+    console.log(cart_data)
+    console.log(cart_data[food_id])
+    let unit = parseInt(cart_data[food_id].unit) 
+    cart_data[food_id].unit = unit + 1
+    cart_data[food_id].total = parseFloat(cart_data[food_id].price) * parseFloat(cart_data[food_id].unit)
+  }
+  sessionStorage.setItem('foods', JSON.stringify(cart_data))
+  getData()
+}
+
+function decrease(food_id) {
+  if(cart_data.length > 0) {
+    if(parseInt(cart_data[food_id].unit) > 1) {
+      let unit = parseInt(cart_data[food_id].unit) 
+      cart_data[food_id].unit -= 1
+      cart_data[food_id].total = parseFloat(cart_data[food_id].price) * parseFloat(cart_data[food_id].unit)
+    }
+  }
+  sessionStorage.setItem('foods', JSON.stringify(cart_data))
+  getData()
+}
+
+function deleteFood(food_id) {
+  sessionStorage.setItem('tmp_delete', food_id)
+  document.getElementById('delete_modal').click()
+}
+
+function removeFood() {
+  let food_id = sessionStorage.getItem('tmp_delete')
+  if(cart_data.length > 0) cart_data.splice(food_id, 1)
+  sessionStorage.setItem('foods', JSON.stringify(cart_data))
+  getData()
+}
+
+function submitCart() {
+  let credentials = JSON.parse(sessionStorage.getItem('credentials'))
+  console.log(credentials)
+  let foods = JSON.parse(sessionStorage.getItem('foods'))
+  let now = new Date()
+  let dateString = now.getUTCFullYear() + "-" +
+      ("0" + (now.getUTCMonth()+1)).slice(-2) + "-" +
+      ("0" + now.getUTCDate()).slice(-2) + " " +
+      ("0" + (now.getUTCHours())).slice(-2) + ":" +
+      ("0" + (now.getUTCMinutes())).slice(-2) + ":" +
+      ("0" + (now.getUTCSeconds())).slice(-2)
+  if((credentials != null || foods != undefined) && (foods != null && foods != undefined)) {
+    fetch("{% url 'submitCart' restaurant_id=restaurant.id %}", {
+      method: 'POST',
+      headers: fetch_header,
+      body: JSON.stringify({
+        order_time: dateString,
+        status: 'pending',
+        customer: credentials.customer.id,
+        table: credentials.table.number,
+      })
+    })
+    .then((response) => { return response.json() })
+    .then((data) => { 
+      if(data.status == 'success') {
+        sessionStorage.setItem('ordered', JSON.stringify(data.data))
+        saveFood(data.data.id)
+      }
+    })
+  }
+}
+
+function saveFood(id) {
+  let foods_orderd = JSON.parse(sessionStorage.getItem('foods_orderd')) || []
+  let foods = JSON.parse(sessionStorage.getItem('foods'))
+  foods.map((element, index) => {
+    fetch('/api/1/foods/order/'+element.id+'/', {
+      method: 'POST',
+      headers: fetch_header,
+      body: JSON.stringify({
+        order: id,
+        quantity: element.unit
+      })
+    })
+    .then((response) => { return response.json() })
+    .then((data) => {
+      foods_orderd.push(data.data)
+    })
+  })
+  setTimeout(() => {
+    console.log(foods_orderd)
+    sessionStorage.setItem('foods_ordered', JSON.stringify(foods_orderd)) 
+    document.getElementById('submitted_modal').click()
+  }, 500)
+}
+
+function getData() {
+    console.log('Getting Data')
+  if(cart_content) {
+    if (cart_data.length == 0) {
+        not_found_content = `<div class="flex w-full items-center justify-center py-4">
+          <div class="w-full bg-red-500 p-4 rounded-xl text-white flex items-center justify-between">
+            <p>You never add a food to cart</p>
+            <a href="{% url 'home' restaurant_id=restaurant.id table_id=table.id %}" class="btn bg-white text-red-500 hover:bg-white/70 btn-sm border-0">Menu</a>
+          </div>
+        </div>`
+        cart_content.innerHTML = not_found_content
+        document.getElementById('submit-button').classList.add('hidden')
+    } else {
+      sum_total_price = 0
+      sum_total_item = 0
+      content = `<div class="space-y-2">`
+      cart_data.map((element, index) => {
+        let string_subtotal = element.total.toString()
+        let format_subtotal = string_subtotal.replace(',', '') || element.total
+        sum_total_price += parseFloat(format_subtotal) 
+        sum_total_item += parseInt(element.unit)
+        content += `<div class="w-full bg-orange-100 hover:bg-white transition-all p-3 rounded-xl">
+          <div class="grid md:grid-cols-3 grid-cols-2 items-center justify-between">
+            <div class="flex relative items-center justify-start gap-x-2">
+              <img src="${element.image}" class="w-16 h-16 object-cover object-center rounded-lg" alt="Image Food">
+              <div>
+                <p class="font-semibold">${default_language == 'en' ? element.en : default_language == 'ja' ? element.ja : element.mm}</p>
+                <span class="text-xs">${element.price} (Yen) <span class="bg-orange-500 absolute left-0 bottom-0 p-1 text-white rounded">X${element.unit}</span> </span>
+              </div>
+            </div>
+            <div>
+              <div class="text-center">
+                <div class="text-xs">${default_language == 'en' ? subtotal_lang.english : default_language == 'ja' ? subtotal_lang.japan : subtotal_lang.myanmar}</div>
+                <div class="text-sm font-bold">${element.total}</div>
+              </div>
+            </div>
+            <div class="md:col-span-1 col-span-2 cart-option">
+              <div class="text-right">
+                <button class="btn bg-orange-500 btn-sm text-white" onclick="increase(${index})">+</button>
+                <button class="btn bg-orange-500 px-[1em] btn-sm text-white" onclick="decrease(${index})">-</button>
+                <div class="mt-1 md:block inline-block">
+                  <button onclick="deleteFood(${index})" class="btn text-white bg-red-500 btn-sm md:px-[1.85rem] px-2"><span class="fluent--delete-12-filled"></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`
+      })
+      content += `</div>`
+      content += `<div class="flex mt-2 mb-1 justify-end items-center text-sm">
+        <div id="total_item_content">Total Item</div>
+        <div class="w-1/4 text-right font-bold">${sum_total_item}</div>
+      </div>`
+      content += `<div class="flex mb-1 justify-end items-center text-sm">
+        <div id="total_price_content">Total Price</div>
+        <div class="w-1/4 text-right font-bold">${new Intl.NumberFormat('ja-JP').format(sum_total_price)} Yen</div>
+      </div>`
+      cart_content.innerHTML = content
+      setTimeout(() => {
+        if((ordered != null || ordered != undefined) && (foods_ordered != null || foods_ordered != undefined)) {
+          // document.getElementById('submit-button').classList.add('hidden')
+          let optionsCart = document.querySelectorAll('.cart-option')
+          console.log(optionsCart)
+          optionsCart.forEach((element, index) => {
+            // element.classList.add('hidden')
+            console.log(element)
+          })
+          // document.getElementById('submitted_modal').click()
+        }
+      }, 500) 
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  getData()
+})
+</script>
+{% endblock %}
