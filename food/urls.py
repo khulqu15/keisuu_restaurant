@@ -15,7 +15,7 @@ urlpatterns = [
     path('<int:restaurant_id>/customer/<int:customer_id>/end/', DeleteEndedCustomer),
     path('<int:restaurant_id>/foods/home/', GetAllFoods),
     path('<int:restaurant_id>/foods/<int:food_id>/', GetAFood),
-    path('<int:restaurant_id>/foods/order/', RequestOrder),
+    path('<int:restaurant_id>/foods/order/', RequestOrder, name='submitCart'),
     path('<int:restaurant_id>/foods/order/<int:food_id>/', RequestFood),
     path('<int:restaurant_id>/foods/order/<int:order_id>/', GetAnOrder),
     path('<int:restaurant_id>/foods/pay/<int:order_id>/', CreatePayment),

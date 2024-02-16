@@ -1,0 +1,122 @@
+{% extends 'layout/customer.html' %}
+
+{% block content %}
+  <div id="nav-categories" class="flex items-center pt-1 px-2 pb-2 justify-center no-scrollbar overflow-x-auto gap-x-2">
+    {% for category in categories %}
+    <button id="category-{{ forloop.counter0 }}" onclick="openTab(this, {{ forloop.counter0 }})" class="nav-item btn btn-sm {% if forloop.counter == 1 %}bg-orange-500 text-white{% else %}btn-ghost hover:text-orange-600{% endif %}">{{ category.name }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="w-full flex overflow-hidden justify-stretch item-center bg-gradient-to-b from-orange-200 to-orange-100 md:max-h-[63vh] max-h-[66vh] h-full overflow-y-auto">
+    <div class="grid w-full grid-cols-1 gap-x-2">
+      <div class="swiper-container">
+        <div class="swiper-wrapper" id="food-list">
+          {% for category in categories %}
+          <div class="swiper-slide">
+            <div class="grid lg:grid-cols-3 grid-cols-2 gap-2 p-3">
+              {% if category.foods|length %}
+              {% for food in category.foods %}
+              <div class="w-full h-48 rounded-xl bg-black relative overflow-hidden">
+                <label data-food="{{ food|safe }}" onclick="openModal(this)" for="item_modal">
+                  <img src="{{ food.image }}" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all hover:scale-110 hover:opacity-60">
+                  <div class="absolute top-0 left-0">
+                    <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl">{{ food.food_id }}</h3>
+                  </div>
+                  <div class="absolute left-0 bottom-0 w-full bg-black/70 text-white text-sm p-2">
+                    <div class="font-semibold mb-1">{{ food.name }}</div>
+                    <div class="text-xs">{{ food.price }} Yen</div>
+                  </div>
+                </label>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="lg:col-span-3 col-span-2 p-3">
+                <div class="w-full bg-red-500 text-white p-3 rounded-xl flex items-center gap-3">
+                  <span class="nonicons--not-found-16"></span> Food Not Found
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="checkbox" id="item_modal" class="modal-toggle"/>
+  <div class="modal" role="dialog">
+    <div class="modal-box max-w-sm">
+      <label for="item_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+      <div class="flex items-center gap-x-3 mb-3">
+        <h3 class="font-bold text-lg bg-orange-500 text-white inline-block px-3 rounded-xl" id="code_modal">A-10</h3>
+        <p class="font-semibold" id="name_modal">Fish Curry Noodles</p>
+        <span id="food_id_modal" class="hidden"></span>
+        <span id="en_modal" class="hidden"></span>
+        <span id="ja_modal" class="hidden"></span>
+        <span id="mm_modal" class="hidden"></span>
+      </div>
+      <img id="image_modal" src="/media/banner1.jpg" alt="Food" class="w-full cursor-pointer h-full object-cover object-center transition-all rounded-xl">
+      <div class="flex items-center justify-between mt-2">
+        <button id="decrement-button" onclick="modifyUnit('decrement')" class="btn bg-orange-500 btn-sm text-white">-</button>
+        <input id="unit-input" type="number" min="1" value="1" class="input w-3/4 input-sm bg-base-200">
+        <button id="increment-button" onclick="modifyUnit('increment')" class="btn bg-orange-500 btn-sm text-white">+</button>
+      </div>
+      <div class="grid grid-cols-2 mt-2">
+        <div>
+          <span class="text-xs">Price (Yen)</span>
+          <p class="font-semibold text-sm" id="price_modal"></p>
+        </div>
+        <div class="bg-base-200 rounded-xl px-2 py-1">
+          <span class="text-xs">Total (Yen)</span>
+          <p class="font-semibold text-sm" id="tmp_total_modal"></p>
+        </div>
+      </div>
+      <button id="add_to_order_list-content" class="btn btn-sm w-full mt-3 text-white bg-orange-600 text-white">Add to Order Cart</button>
+    </div>
+  </div>
+
+  <input type="checkbox" id="out_of_stock_modal" class="modal-toggle">
+  <div class="modal" role="dialog">
+    <div class="modal-box max-w-sm">
+      <div class="text-center pt-5">
+        <div class="flex w-full items-center justify-center">
+            <div class="w-8 h-8 rounded-full bg-red-500 text-white justify-center flex items-center">
+            <span class="solar--close-square-bold"></span>
+            </div>
+        </div>
+        <h3 class="font-bold text-lg">The food is not available</h3>
+        <p class="pb-4 pt-1">Choose another available food</p>
+        </div>
+        <div class="modal-action grid grid-cols-1">
+        <div>
+            <label for="out_of_stock_modal" class="btn bg-red-500 text-white w-full">Go back</label>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  var restaurant = "{{ restaurant|safe }}"
+  var restaurantJson = restaurant.replace(/'/g, '"').replace(/True/g, 'true').replace(/False/g, 'false').replace(/None/g, 'null')
+  var restaurantData = JSON.parse(restaurantJson)
+
+  var customer = "{{ customer|safe }}"
+  var customerJson = customer.replace(/'/g, '"').replace(/True/g, 'true').replace(/False/g, 'false').replace(/None/g, 'null')
+  var customerData = JSON.parse(customerJson)
+
+  var table = "{{ table|safe }}"
+  console.log(table)
+  var tableJson = table.replace(/'/g, '"').replace(/True/g, 'true').replace(/False/g, 'false').replace(/None/g, 'null')
+  var tableData = JSON.parse(tableJson)
+
+  sessionStorage.setItem('credentials', JSON.stringify({
+    restaurant: restaurantData,
+    customer: customerData,
+    table: tableData,
+  }))
+})
+</script>
+{% endblock %}
