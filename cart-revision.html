@@ -169,6 +169,7 @@
       <input type="checkbox" id="submitted_modal" class="modal-toggle">
       <div class="modal" role="dialog">
         <div class="modal-box max-w-sm">
+          <label for="submitted_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
           <div class="text-center pt-5">
             <div class="flex w-full items-center justify-center">
               <div class="w-8 h-8 rounded-full bg-green-500 text-white justify-center flex items-center">
@@ -232,8 +233,8 @@
 </html>
 
 <script src="component.js"></script>
-<script>
-let domain_endpoint = 'http://localhost:8000'
+<script>  
+let domain_endpoint = 'https://restaurant-order-dev.keisuu.net'
 let cart_data = JSON.parse(sessionStorage.getItem('foods')) || []
 let cart_content = document.getElementById('cart-content')
 let ordered = JSON.parse(sessionStorage.getItem('ordered'))
@@ -245,6 +246,15 @@ let fetch_header = {
 }
 let subtotal_lang = JSON.parse(sessionStorage.getItem('checkout')) || {
   english: 'Subtotal',
+}
+
+function getParameter(param) {
+  let pageUrl = window.location.search.substring(1)
+  let urlVariables = pageUrl.split('&')
+  for(let i=0; i<urlVariables.length; i++) {
+    let parameterName = urlVariables[i].split('=')
+    if(parameterName[0] == param) return parameterName[1]
+  }
 }
 
 function increase(food_id) {
@@ -398,14 +408,14 @@ function getData() {
       cart_content.innerHTML = content
       setTimeout(() => {
         if((ordered != null || ordered != undefined) && (foods_ordered != null || foods_ordered != undefined)) {
-          document.getElementById('submit-button').classList.add('hidden')
+          // document.getElementById('submit-button').classList.add('hidden')
           let optionsCart = document.querySelectorAll('.cart-option')
           console.log(optionsCart)
           optionsCart.forEach((element, index) => {
-            element.classList.add('hidden')
+            // element.classList.add('hidden')
             console.log(element)
           })
-          document.getElementById('submitted_modal').click()
+          // document.getElementById('submitted_modal').click()
         }
       }, 500) 
     }

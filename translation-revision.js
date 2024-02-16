@@ -1,4 +1,4 @@
-let domain_enpoint = "http://localhost:8000"
+let domain_enpoint = "https://restaurant-order-dev.keisuu.net"
 
 
 function openTab(index) {

@@ -37,60 +37,98 @@
           </div>
         </div>
 
-        <div class="mt-6">
-          <div class="w-full bg-white p-4 rounded-xl">
-            <div class="grid md:grid-cols-2 grid-cols-1 gap-2 items-center">
+        <div class="mt-6 grid lg:grid-cols-2 grid-cols-1 gap-3">
+          <div>
+            <div class="grid grid-cols-4 gap-3 mb-3">
               <div>
-                <div class="px-3 py-1 bg-orange-500 inline-block rounded-lg text-white">
-                  <div class="flex items-center gap-2">
-                    <span class="lets-icons--order"></span> Order List
+                <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+                  Foods
+                  <div class="text-3xl" id="food-count">10</div>
+                </div>
+              </div>
+              <div>
+                <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+                  Orders
+                  <div class="text-3xl" id="food-count">10</div>
+                </div>
+              </div>
+              <div>
+                <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+                  Restaurants
+                  <div class="text-3xl" id="food-count">10</div>
+                </div>
+              </div>
+              <div>
+                <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+                  Staffs
+                  <div class="text-3xl" id="food-count">10</div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full bg-white p-4 rounded-xl">
+              <div class="grid md:grid-cols-2 grid-cols-1 gap-2 items-center">
+                <div>
+                  <div class="px-3 py-1 bg-orange-500 inline-block rounded-lg text-white">
+                    <div class="flex items-center gap-2">
+                      <span class="lets-icons--order"></span> Order List
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-end items-center gap-2">
+                  <select id="date-input" class="select select-bordered input-sm w-48">
+                    <option selected>Today</option>
+                    <option>1 Week</option>
+                    <option>1 Month</option>
+                    <option>1 Year</option>
+                  </select>
+  
+                  <select id="sort-input" class="select select-bordered input-sm w-48">
+                    <option selected>Newest</option>
+                    <option>Oldest</option>
+                  </select>
+                </div>
+              </div>
+              <div class="overflow-x-auto mt-5">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Table</th>
+                      <th>Foods</th>
+                      <th>Total Price</th>
+                      <th>Payment Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-body">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="w-full bg-white p-4 rounded-xl">
+              <div class="grid md:grid-cols-2 grid-cols-1 gap-2 items-center">
+                <div>
+                  <div class="px-3 py-1 bg-orange-500 inline-block rounded-lg text-white">
+                    <div class="flex items-center gap-2 py-2">
+                      <span class="ion--restaurant"></span> Restaurant
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="flex justify-end items-center gap-2">
-                <select id="date-input" class="select select-bordered input-sm w-48">
-                  <option selected>Today</option>
-                  <option>1 Week</option>
-                  <option>1 Month</option>
-                  <option>1 Year</option>
-                </select>
-
-                <select id="sort-input" class="select select-bordered input-sm w-48">
-                  <option selected>Newest</option>
-                  <option>Oldest</option>
-                </select>
+              <div class="overflow-x-auto mt-5">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="restaurant-body">
+                  </tbody>
+                </table>
               </div>
-            </div>
-            <div class="overflow-x-auto mt-5">
-              <table class="table">
-                <!-- head -->
-                <thead>
-                  <tr>
-                    <th>Table</th>
-                    <th>Foods</th>
-                    <th>Total Price</th>
-                    <th>Payment Status</th>
-                  </tr>
-                </thead>
-                <tbody id="table-body">
-                  <!-- row 1 -->
-                  <tr class="hover">
-                    <th>1</th>
-                    <td>Hart Hagerty</td>
-                    <td>10,00</td>
-                    <td>
-                      <button class="btn bg-orange-500 btn-sm text-white animate-pulse">Checkout</button>
-                    </td>
-                  </tr>
-                  <!-- row 2 -->
-                  <tr class="hover">
-                    <th>2</th>
-                    <td>Brice Swyre</td>
-                    <td>10,00</td>
-                    <td><div class="bg-red-500 text-white px-6 py-1 rounded-lg inline-block">Paid</div></td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
@@ -99,14 +137,14 @@
     <div class="drawer-side">
       <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
       <ul class="menu p-4 w-80 min-h-full bg-white rounded-r-xl text-base-content">
-        <li><a href="index-revision.html"><span class="solar--home-2-bold"></span> Home</a></li>
+        <li><a class="bg-orange-500 text-white" href="index-revision.html"><span class="solar--home-2-bold"></span> Home</a></li>
         <div class="divider">Admin</div>
         <li><a><span class="ion--restaurant"></span> Restaurants</a></li>
         <li><a><span class="fa6-solid--user-tie"></span> Staffs</a></li>
         <li><a><span class="mdi--food"></span> Foods</a></li>
         <li><a><span class="solar--user-heart-rounded-bold"></span> Customer</a></li>
         <div class="divider">Cashier</div>
-        <li><a class="bg-orange-500 text-white">Orders</a></li>
+        <li><a href="cashier-revision.html">Orders</a></li>
         <li><a>Payments</a></li>
       </ul>
     </div>
@@ -123,6 +161,7 @@ let fetch_header = {
 }
 let domain_endpoint = 'http://localhost:8000'
 let table_body = document.getElementById('table-body')
+let restaurant_body = document.getElementById('restaurant-body')
 
 function checkoutOrder(id, customer, restaurant, table, time, status) {
   fetch(domain_endpoint+'/api/admin/food_orders/'+id+'/', {
@@ -164,7 +203,7 @@ function getData() {
             let food = element.foods.find((item) => item.id == el.food)
             if(food) {
               table_body_content += `<div class="mt-1 flex items-center gap-2">
-                <div class="bg-orange-500 inline-block p-1 text-white rounded">${el.quantity}X</div>
+                <div class="bg-orange-500 inline-block p-1 text-white rounded text-xs">${el.quantity}X</div>
                 <span>${food.name}</span>
               </div>`
             }
@@ -194,8 +233,48 @@ function getData() {
   })
 }
 
+function getRestaurant() {
+  fetch(domain_endpoint+'/api/admin/restaurants/', {
+    method: 'GET',
+    headers: fetch_header,
+  })
+  .then((response) => { return response.json() })
+  .then((data) => {
+    if(data.status == 'success') {
+      let restaurant_body_html = ''
+      if(data.data.length > 0) {
+        data.data.map((element, index) => {
+          restaurant_body_html += `<tr>
+            <td>${element.code == '' ? element.id : element.code}</td>
+            <td>${element.name}, ${element.address}</td>
+            <td>${formattedDate(element.created_at)}</td>
+            <td>
+              <div class="flex items-center gap-2">
+                <button class="btn-sm btn bg-green-500 text-white text-sm">Detail</button>
+                <button class="btn-sm btn bg-red-500 text-white text-sm">Delete</button>
+              </div>
+            </td>
+          </tr>`
+        })
+      }
+      restaurant_body.innerHTML = restaurant_body_html
+    }
+  })
+}
+
+function formattedDate(isoDate) {
+  date = new Date(isoDate)
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const formattedDate = `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
+  return formattedDate
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   getData()
+  getRestaurant()
+
 })
 
 </script>
