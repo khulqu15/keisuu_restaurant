@@ -15,24 +15,29 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import environ
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-gz2kxg5#!t6u9kcnx89q$=kn-3!ni7w80c4_5ulkpf(ze%f7#c"
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
 # Application definition
 
 INSTALLED_APPS = [
-    'payment',
-    'food',
-    'customer',
-    'restaurant',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -40,6 +45,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "corsheaders",
+    
+    'django_extensions',
+    'import_export',
+    
+    'payment',
+    'food',
+    'customer',
+    'restaurant',
 ]
 
 MIDDLEWARE = [
@@ -81,14 +94,7 @@ WSGI_APPLICATION = "order.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": 'db_restaurant',
-        "USER": 'postgres',
-        "PASSWORD": '12345678',
-        "HOST": 'localhost',
-        "PORT": '5432',
-    }
+    'default': env.db(),
 }
 
 # Password validation
@@ -140,3 +146,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SUPERUSER_EMAIL = env('SUPERUSER_EMAIL')
+SUPERUSER_PASSWORD = env('SUPERUSER_PASSWORD')
