@@ -49,6 +49,26 @@
     </div>
   </div>
 
+  <input type="checkbox" id="success_modal" class="modal-toggle">
+  <div class="modal" role="dialog">
+    <div class="modal-box max-w-sm">
+      <div class="text-center pt-5">
+        <div class="flex w-full items-center justify-center">
+          <div class="w-8 h-8 rounded-full bg-green-500 text-white justify-center flex items-center">
+            <span class="mingcute--send-fill"></span>
+          </div>
+        </div>
+        <h3 class="font-bold text-lg">Thank you for your order</h3>
+        <p class="pb-4 pt-1">Thanks and see you again</p>
+      </div>
+      <div class="modal-action grid grid-cols-1">
+        <div>
+          <label for="success_modal" class="btn bg-green-500 text-white w-full" onclick="exitFromRestaurant()">Exit page</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <input type="checkbox" id="paid_modal" class="modal-toggle">
   <div class="modal" role="dialog">
     <div class="modal-box max-w-sm">
@@ -113,11 +133,6 @@
           <td class="text-right">${new Intl.NumberFormat('ja-JP').format(formatted_price)}.00</td>
         </tr>`
       })
-      //<td>
-      //  <span class="uppercase px-2 rounded-xl text-xs bg- ${order_food.status == 'pending' ? 'bg-red-500 text-white' : order_food.status == 'progress' ? 'bg-yellow-500 text-black' : 'bg-green-500 text-white'}">
-      //    ${order_food.status}</td>
-      //  </span>
-      // </td>
       table_content += `
       <tr>
         <th></th>

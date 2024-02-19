@@ -1,0 +1,355 @@
+{% extends 'layout/admin.html' %}
+
+{% block content %}
+<div class="mt-6 grid lg:grid-cols-2 grid-cols-1 gap-3">
+    <div>
+      <div class="grid grid-cols-4 gap-3 mb-3">
+        <div>
+          <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+            Foods
+            <div class="text-3xl" id="food-count">{{ foods|length }}</div>
+          </div>
+        </div>
+        <div>
+          <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+            Category
+            <div class="text-3xl" id="food-count">{{ categories|length }}</div>
+          </div>
+        </div>
+        <div>
+          <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+            Orders
+            <div class="text-3xl" id="food-count">{{ orders|length }}</div>
+          </div>
+        </div>
+        <div>
+          <div class="bg-orange-500 py-2 p-4 rounded-xl text-white">
+            Staffs
+            <div class="text-3xl" id="food-count">{{ staffs|length }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full bg-white p-4 rounded-xl">
+        <div class="grid md:grid-cols-2 grid-cols-1 gap-2 items-center">
+          <div>
+            <div class="px-3 py-1 bg-orange-500 inline-block rounded-lg text-white">
+              <div class="flex items-center gap-2">
+                <span class="lets-icons--order"></span> Order List
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end items-center gap-2">
+            <select id="date-input" class="select select-bordered input-sm w-48">
+              <option selected>Today</option>
+              <option>1 Week</option>
+              <option>1 Month</option>
+              <option>1 Year</option>
+            </select>
+
+            <select id="sort-input" class="select select-bordered input-sm w-48">
+              <option selected>Newest</option>
+              <option>Oldest</option>
+            </select>
+          </div>
+        </div>
+        <div class="overflow-x-auto mt-5">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Foods</th>
+                <th>Total Price</th>
+                <th>Payment Status</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+                {% if orders|length %}
+                {% for order in orders %}
+                <tr class="text-xs {% if restaurant.id == restaurant_id %} bg-base-200 {% endif %}">
+                    <td>{{ order.table.number }}</td>
+                    <td>
+                        {% if order.foods|length %}
+                            {% for item in order.items %}
+                            <div class="mt-1 flex items-center gap-2">
+                                <div class="bg-orange-500 inline-block p-1 text-white rounded text-xs">{{item.quantity}}X</div>
+                                {% for food in order.foods %}
+                                    {% if food.id == item.food %}
+                                        {{ food.name }}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% load currency_filters %}
+                        {{ order.total_price|yen }}
+                    </td>
+                    <td>
+                        {% if order.status == 'pending' %}
+                        <button onclick="checkoutOrder('{{order.id}}', '{{order.customer.id}}', '{{order.customer.restaurant}}', '{{order.table.id}}', '{{order.order_time}}', 'completed')" class="btn bg-orange-500 btn-sm text-white animate-pulse">Checkout</button>
+                        {% else %}
+                        <div onclick="checkoutOrder('{{order.id}}', '{{order.customer.id}}', '{{order.customer.restaurant}}', '{{order.table.id}}', '{{order.order_time}}', 'pending')" class="bg-red-500 text-white px-6 py-1 rounded-lg inline-block cursor-pointer bg-red-600">Paid</div>
+                        <div onclick="removeOrder('{{order.id}}')" class="py-1 inline-block rounded-lg ml-2 cursor-pointer hover:bg-red-700 bg-red-600 btn-xs font-normal text-white"><span class="fluent--delete-12-filled"></span></div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4">
+                        <div class="w-full bg-red-500 text-white p-3 rounded-xl flex items-center gap-3">
+                            <span class="nonicons--not-found-16"></span> Orders Not Found
+                        </div>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="w-full bg-white p-4 rounded-xl">
+        <div class="grid md:grid-cols-2 grid-cols-1 gap-2 items-center">
+          <div>
+            <div class="px-3 py-1 bg-orange-500 inline-block rounded-lg text-white">
+              <div class="flex items-center gap-2 py-2">
+                <span class="ion--restaurant"></span> Restaurant
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="overflow-x-auto mt-5">
+            <label onclick="openForm(this, null)" for="form_modal" class="btn bg-indigo-500 mb-2 btn-sm text-white hover:bg-indigo-600 w-full">Add New Restaurant</label>
+            <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="restaurant-body">
+                {% if restaurants|length %}
+                {% for restaurant in restaurants %}
+                <tr class="text-xs {% if restaurant.id == restaurant_id %} bg-base-200 {% endif %}">
+                    <td>{% if restaurant.code %} {{ restaurant.code }} {% else %} {{ restaurant.id }} {% endif %}</td>
+                    <td>{{ restaurant.name }}</td>
+                    <td>{{ restaurant.address }}</td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                        <a href="{% url 'admin_home' restaurant_id=restaurant.id %}" class="btn-sm btn bg-green-500 text-white text-sm">Detail</a>
+                        <label onclick="openForm(this, '{{ restaurant.id }}')" for="form_modal" class="btn-sm btn bg-yellow-500 text-white text-sm"><span class="ant-design--edit-filled"></span></label>
+                        <label onclick="openDelete('{{ restaurant.id }}')" for="delete_modal" class="btn-sm btn bg-red-500 text-white text-sm"><span class="fluent--delete-12-filled"></span></label>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4">
+                        <div class="w-full bg-red-500 text-white p-3 rounded-xl flex items-center gap-3">
+                            <span class="nonicons--not-found-16"></span> Restaurant Not Found
+                        </div>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <input type="checkbox" id="delete_modal" class="modal-toggle">
+    <div class="modal" role="dialog">
+      <div class="modal-box max-w-sm">
+        <label for="delete_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+        <div class="text-center pt-5">
+          <div class="flex w-full items-center justify-center">
+            <div class="w-8 h-8 rounded-full bg-red-500 text-white justify-center flex items-center">
+              <span class="fluent--delete-12-filled"></span>
+            </div>
+          </div>
+          <h3 class="font-bold text-lg">Are you sure for delete ?</h3>
+          <p class="pb-4 pt-1">The restaurant will be removed from system</p>
+        </div>
+        <div class="modal-action grid grid-cols-2">
+          <div>
+            <label for="delete_modal" class="btn w-full">Cancel</label>
+          </div>
+          <div>
+            <label for="delete_modal" onclick="removeRestaurant()" class="btn bg-red-500 text-white w-full">Remove</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <input type="checkbox" id="form_modal" class="modal-toggle" />
+    <div class="modal" role="dialog">
+        <div class="modal-box max-w-xl">
+            <label for="form_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+            <h3 class="font-bold text-lg">Restaurant Forms</h3>
+            <div class="grid grid-cols-4 gap-3">
+                <input type="hidden" id="restaurant_id">
+                <div class="col-span-3 form-control w-full">
+                    <label class="label" for="name">
+                      <span class="label-text">Restaurant Name</span>
+                    </label>
+                    <input type="text" id="restaurant_name" placeholder="Restaurant" class="input input-bordered w-full" />
+                </div>
+                <div class="form-control w-full">
+                    <label class="label" for="name">
+                      <span class="label-text">Code</span>
+                    </label>
+                    <input type="text" id="restaurant_code" placeholder="RES01" class="input input-bordered w-full" />
+                </div>
+            </div>
+            <div class="form-control w-full">
+                <label class="label" for="name">
+                  <span class="label-text">Restaurant Address</span>
+                </label>
+                <textarea id="restaurant_address" placeholder="Address" class="textarea textarea-bordered w-full"></textarea>
+            </div>
+            <label for="form_modal" onclick="submitRestaurant()" id="restaurant_submit" class="btn w-full bg-orange-500 text-white rounded-xl mt-3">Submit</label>
+            <label for="form_modal" class="btn w-full bg-base-100 text-base-content rounded-xl mt-3">Cancel</label>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+let dateInput = document.getElementById('date-input')
+let sortInput = document.getElementById('sort-input')
+let fetch_header = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+}
+let table_body = document.getElementById('table-body')
+let restaurant_body = document.getElementById('restaurant-body')
+
+function openDelete(restaurant) {
+    sessionStorage.setItem('tmp_restaurant', restaurant)
+}
+
+function removeRestaurant() {
+    let restaurant_id = sessionStorage.getItem('tmp_restaurant')
+    fetch('/api/admin/restaurants/'+restaurant_id+'/', {
+        method: 'DELETE',
+        headers: fetch_header
+    })
+    .then((response) => {
+        if (response.status === 204) {
+            document.getElementById('success_title').innerText = 'Successfully Delete'
+            document.getElementById('success_description').innerText = 'Restaurant Successfully Deleted'
+            document.getElementById('success_modal').click()
+        } else {
+            return response.json();
+        }
+    })
+    .then((data) => {
+        if(data && data.status == 'success') {
+            document.getElementById('success_title').innerText = 'Successfully Delete'
+            document.getElementById('success_description').innerText = 'Restaurant Successfully Deleted'
+            document.getElementById('success_modal').click()
+        }
+    })
+    .catch((error) => {
+        document.getElementById('error_title').innerText = 'Can\'t Delete Restaurant'
+        document.getElementById('error_description').innerText = 'Delete Restaurant Failed: ' + error
+        document.getElementById('error_modal').click()
+    });
+}
+
+function openForm(el, restaurant) {
+    document.getElementById('restaurant_id').value = ''
+    document.getElementById('restaurant_name').value = ''
+    document.getElementById('restaurant_code').value = ''
+    document.getElementById('restaurant_address').value = ''
+    let restaurants = "{{ restaurants|safe }}"
+    if(restaurant != null) {
+        let restaurantJson = restaurants.replace(/OrderedDict\(/g, '')
+            .replace(/\)/g, '')
+            .replace(/'/g, '"')
+            .replace(/: True/g, ': true')
+            .replace(/: False/g, ': false');
+        let restaurantData = JSON.parse(restaurantJson)
+        let restaurantSelected = restaurantData.find((item => item.id == restaurant))
+        document.getElementById('restaurant_id').value = restaurant
+        document.getElementById('restaurant_name').value = restaurantSelected.name
+        document.getElementById('restaurant_code').value = restaurantSelected.code
+        document.getElementById('restaurant_address').value = restaurantSelected.address
+    }
+}
+
+function submitRestaurant() {
+    let restaurant_id = document.getElementById('restaurant_id').value
+    let endpoint = '/api/admin/restaurants/'
+    let method = 'POST'
+    if(restaurant_id != '') {
+        endpoint = '/api/admin/restaurants/'+restaurant_id+'/'
+        method = 'PUT'
+    }
+    fetch(endpoint, {
+        method: method,
+        headers: fetch_header,
+        body: JSON.stringify({
+            name: document.getElementById('restaurant_name').value,
+            address: document.getElementById('restaurant_address').value,
+            code: document.getElementById('restaurant_code').value
+        })
+    })
+    .then((response) => {
+        window.location.reload()
+    })
+    .then((data) => {
+        if(data && data.status == 'success') window.location.reload()
+    })
+}
+
+function checkoutOrder(id, customer, restaurant, table, time, status) {
+  fetch('/api/admin/food_orders/'+id+'/', {
+    method: 'PUT',
+    headers: fetch_header,
+    body: JSON.stringify({
+      restaurant: restaurant,
+      customer: customer,
+      table: table,
+      status: status,
+      order_time: time
+    })
+  })
+  .then((response) => { return response.json() })
+  .then((data) => {
+    if(data.status == 'success') {
+      window.location.reload()
+    }
+  })
+}
+
+function removeOrder(id) {
+    fetch('/api/admin/food_orders/'+id+'/', {
+        method: 'DELETE',
+        headers: fetch_header,
+      })
+      .then((response) => { return response.json() })
+      .then((data) => {
+        if(data.status == 'success') {
+          window.location.reload()
+        }
+    })
+}
+
+function formattedDate(isoDate) {
+  date = new Date(isoDate)
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const formattedDate = `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
+  return formattedDate
+}
+</script>
+{% endblock %}

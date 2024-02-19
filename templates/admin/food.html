@@ -1,0 +1,295 @@
+{% extends 'layout/admin.html' %}
+
+{% block content %}
+<div class="mt-6 grid grid-cols-1 gap-3">
+    <div>
+      <div class="w-full bg-white p-4 rounded-xl">
+        <div class="grid md:grid-cols-2 grid-cols-1 gap-2 items-center">
+            <div>
+              <div class="px-3 py-1 bg-orange-500 inline-block rounded-lg text-white">
+                <div class="flex items-center gap-2">
+                    Food List
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end items-center gap-2">
+              <select id="sort-input" class="select select-bordered input-sm w-48">
+                <option selected>Newest</option>
+                <option>Oldest</option>
+              </select>
+            </div>
+          </div>
+        <div class="overflow-x-auto mt-5">
+            <label onclick="openForm(this, null)" for="form_modal" class="btn bg-indigo-500 mb-2 btn-sm text-white hover:bg-indigo-600 w-full">Add New Food</label>
+            <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Food</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="restaurant-body">
+                {% if foods|length %}
+                {% for food in foods %}
+                <tr class="text-xs hover">
+                    <td>{{ forloop.counter }}</td>
+                    <td><img src="{{ food.image }}" alt="food image" class="w-12 h-12 rounded-lg object-center object-cover"></td>
+                    <td>{{ food.name }}</td>
+                    <td>{{ food.price }}</td>
+                    <td><div class="badge {% if food.status == 'out of stock' %} badge-error {% else %} badge-success {% endif %} text-white">{{ food.status }}</div></td>
+                    <td>{{ food.category.name }}</td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                        <label onclick="openForm(this, '{{ staff.id }}')" for="form_modal" class="btn-sm btn bg-yellow-500 text-white text-sm"><span class="ant-design--edit-filled"></span></label>
+                        <label onclick="openDelete('{{ staff.id }}')" for="delete_modal" class="btn-sm btn bg-red-500 text-white text-sm"><span class="fluent--delete-12-filled"></span></label>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="6">
+                        <div class="w-full bg-red-500 text-white p-3 rounded-xl flex items-center gap-3">
+                            <span class="nonicons--not-found-16"></span> Staff Not Found
+                        </div>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <input type="checkbox" id="delete_modal" class="modal-toggle">
+    <div class="modal" role="dialog">
+      <div class="modal-box max-w-sm">
+        <label for="delete_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+        <div class="text-center pt-5">
+          <div class="flex w-full items-center justify-center">
+            <div class="w-8 h-8 rounded-full bg-red-500 text-white justify-center flex items-center">
+              <span class="fluent--delete-12-filled"></span>
+            </div>
+          </div>
+          <h3 class="font-bold text-lg">Are you sure for delete ?</h3>
+          <p class="pb-4 pt-1">The restaurant will be removed from system</p>
+        </div>
+        <div class="modal-action grid grid-cols-2">
+          <div>
+            <label for="delete_modal" class="btn w-full">Cancel</label>
+          </div>
+          <div>
+            <label for="delete_modal" onclick="removeRestaurant()" class="btn bg-red-500 text-white w-full">Remove</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <input type="checkbox" id="form_modal" class="modal-toggle" />
+    <div class="modal" role="dialog">
+        <div class="modal-box max-w-xl">
+            <label for="form_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+            <h3 class="font-bold text-lg">Food Forms</h3>
+            <form id="staff_form">
+                <input type="hidden" id="staff_id">
+                <input type="hidden" id="staff_restaurant" value="{{ restaurant_id }}">
+                <div class="form-control w-full">
+                    <label class="label" for="name">
+                        <span class="label-text">Staff Name</span>
+                    </label>
+                    <input required type="text" id="staff_name" placeholder="Staff Name" class="input input-sm input-bordered w-full" />
+                </div>
+                <div class="form-control w-full">
+                    <label class="label" for="name">
+                        <span class="label-text">Staff Phone</span>
+                    </label>
+                    <input required type="text" id="staff_phone" placeholder="Staff Phone" class="input input-sm input-bordered w-full" />
+                </div>
+                <div class="form-control w-full">
+                    <label class="label" for="name">
+                        <span class="label-text">Staff Password</span>
+                    </label>
+                    <input required type="password" id="staff_password" placeholder="Staff Password" class="input input-sm input-bordered w-full" />
+                </div>
+                <div class="form-control w-full">
+                    <label class="label" for="name">
+                        <span class="label-text">Staff Role</span>
+                    </label>
+                    <select required type="text" id="staff_role" placeholder="Staff Phone" class="select select-sm input-bordered w-full">
+                        <option selected>Cashier</option>
+                        <option>Kitchen</option>
+                        <option>SuperAdmin</option>
+                    </select>
+                </div>
+                <div class="form-control w-full">
+                    <label class="label" for="name">
+                    <span class="label-text">Staff Address</span>
+                    </label>
+                    <textarea id="staff_address" placeholder="Address" class="textarea textarea-bordered w-full"></textarea>
+                </div>
+                <button type="submit" id="staff_submit" class="btn w-full bg-orange-500 text-white rounded-xl mt-3">Submit</button>
+                <label for="form_modal" class="btn w-full bg-base-100 text-base-content rounded-xl mt-3">Cancel</label>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+let dateInput = document.getElementById('date-input')
+let sortInput = document.getElementById('sort-input')
+let fetch_header = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+}
+let table_body = document.getElementById('table-body')
+let restaurant_body = document.getElementById('restaurant-body')
+
+function openDelete(restaurant) {
+    sessionStorage.setItem('tmp_restaurant', restaurant)
+}
+
+function removeRestaurant() {
+    let restaurant_id = sessionStorage.getItem('tmp_restaurant')
+    fetch('/api/admin/restaurants/'+restaurant_id+'/', {
+        method: 'DELETE',
+        headers: fetch_header
+    })
+    .then((response) => {
+        if (response.status === 204) {
+            document.getElementById('success_title').innerText = 'Successfully Delete'
+            document.getElementById('success_description').innerText = 'Restaurant Successfully Deleted'
+            document.getElementById('success_modal').click()
+        } else {
+            return response.json();
+        }
+    })
+    .then((data) => {
+        if(data && data.status == 'success') {
+            document.getElementById('success_title').innerText = 'Successfully Delete'
+            document.getElementById('success_description').innerText = 'Restaurant Successfully Deleted'
+            document.getElementById('success_modal').click()
+        }
+    })
+    .catch((error) => {
+        document.getElementById('error_title').innerText = 'Can\'t Delete Restaurant'
+        document.getElementById('error_description').innerText = 'Delete Restaurant Failed: ' + error
+        document.getElementById('error_modal').click()
+    });
+}
+
+function openForm(el, staff) {
+    document.getElementById('staff_id').value = ''
+    document.getElementById('staff_name').value = ''
+    document.getElementById('staff_phone').value = ''
+    document.getElementById('staff_address').value = ''
+    let staffs = "{{ staffs|safe }}"
+    console.log(staffs)
+    if(staff != null) {
+        let staffJson = staffs.replace(/OrderedDict\(/g, '')
+            .replace(/\)/g, '')
+            .replace(/'/g, '"')
+            .replace(/: True/g, ': true')
+            .replace(/: False/g, ': false');
+        let staffData = JSON.parse(staffJson)
+        let staffSelected = staffData.find((item => item.id == staff))
+        document.getElementById('staff_id').value = staff
+        if(staffSelected.role != '') 
+            document.getElementById('staff_role').value = staffSelected.role
+        document.getElementById('staff_name').value = staffSelected.name
+        document.getElementById('staff_phone').value = staffSelected.phone
+        document.getElementById('staff_address').value = staffSelected.address
+    }
+}
+
+document.getElementById('staff_form').addEventListener('submit', (event) => {
+    event.preventDefault()
+    submitStaff()
+})
+
+function submitStaff() {
+    let staff_id = document.getElementById('staff_id').value
+    let endpoint = '/api/admin/restaurants_staff/'
+    let method = 'POST'
+    if(staff_id != '') {
+        endpoint = '/api/admin/restaurants_staff/'+staff_id+'/'
+        method = 'PUT'
+    }
+    fetch(endpoint, {
+        method: method,
+        headers: fetch_header,
+        body: JSON.stringify({
+            name: document.getElementById('staff_name').value,
+            address: document.getElementById('staff_address').value,
+            phone: document.getElementById('staff_phone').value,
+            password: document.getElementById('staff_password').value,
+            role: document.getElementById('staff_role').value,
+            restaurant: document.getElementById('staff_restaurant').value
+        })
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        if(data && data.status == 'success') {
+            document.getElementById('success_title').innerText = 'Successfully Update'
+            document.getElementById('success_description').innerText = 'Restaurant Successfully Updated'
+            document.getElementById('success_modal').click()
+        }
+    })
+    .catch((error) => {
+        document.getElementById('error_title').innerText = 'Can\'t Update Restaurant'
+        document.getElementById('error_description').innerText = 'Update Restaurant Failed: ' + error
+        document.getElementById('error_modal').click()
+    });
+}
+
+function checkoutOrder(id, customer, restaurant, table, time, status) {
+  fetch('/api/admin/food_orders/'+id+'/', {
+    method: 'PUT',
+    headers: fetch_header,
+    body: JSON.stringify({
+      restaurant: restaurant,
+      customer: customer,
+      table: table,
+      status: status,
+      order_time: time
+    })
+  })
+  .then((response) => { return response.json() })
+  .then((data) => {
+    if(data.status == 'success') {
+      window.location.reload()
+    }
+  })
+}
+
+function removeOrder(id) {
+    fetch('/api/admin/food_orders/'+id+'/', {
+        method: 'DELETE',
+        headers: fetch_header,
+      })
+      .then((response) => { return response.json() })
+      .then((data) => {
+        if(data.status == 'success') {
+          window.location.reload()
+        }
+    })
+}
+
+function formattedDate(isoDate) {
+  date = new Date(isoDate)
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const formattedDate = `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
+  return formattedDate
+}
+</script>
+{% endblock %}

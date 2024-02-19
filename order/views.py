@@ -1,13 +1,16 @@
+from django.shortcuts import get_object_or_404, render, HttpResponse
+from django.db.models import Sum, F
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.shortcuts import get_object_or_404, render
 from customer.models import Table, Customer
 from customer.serializers import CustomerSerializer, TableSerializer
-from restaurant.models import Restaurant
-from restaurant.serializers import RestaurantSerializer
-from food.models import Category
-from food.serializers import CategorySerializer
+from restaurant.models import Restaurant, RestaurantStaff
+from restaurant.serializers import RestaurantSerializer, RestaurantStaffSerializer
+from food.models import Category, Food
+from food.serializers import CategorySerializer, FoodSerializer
+from payment.serializers import FoodOrderSerializer
+from payment.models import FoodOrder
 
-@api_view(['GET'])
 def HomePage(request, restaurant_id, table_id):
     if request.method == 'GET':
         table = get_object_or_404(Table, pk=table_id)
@@ -50,7 +53,6 @@ def HomePage(request, restaurant_id, table_id):
                 "message": "Table or Restaurant Not Found"
             })
             
-@api_view(['GET'])
 def CartPage(request, restaurant_id, table_id):
     if request.method == 'GET':
         table = get_object_or_404(Table, pk=table_id)
@@ -73,7 +75,6 @@ def CartPage(request, restaurant_id, table_id):
                 "message": "Table or Restaurant Not Found"
             })
         
-@api_view(['GET'])
 def CheckoutPage(request, restaurant_id, table_id):
     if request.method == 'GET':
         table = get_object_or_404(Table, pk=table_id)
@@ -96,3 +97,61 @@ def CheckoutPage(request, restaurant_id, table_id):
                 "message": "Table or Restaurant Not Found"
             })
         
+def CashierPage(request, restaurant_id):
+    if request.method == 'GET':
+        orders = FoodOrder.objects.filter(table__restaurant_id=restaurant_id)
+        serializer = FoodOrderSerializer(orders, many=True)
+        return render(request, 'chef/order.html', {
+            'status': 'success',
+            'orders': serializer.data
+        })
+        
+class AdminPage:
+    def home(request, restaurant_id):
+        if request.method == 'GET':
+            foods = Food.objects.filter(category__restaurant_id=restaurant_id)
+            categories = Category.objects.filter(restaurant_id=restaurant_id)
+            orders = FoodOrder.objects.filter(table__restaurant_id=restaurant_id).annotate(
+                total=Sum('order_item_food_order__subtotal')
+            )
+            staffs = RestaurantStaff.objects.filter(restaurant=restaurant_id)
+            restaurants = Restaurant.objects.all()
+            
+            food_serializer = FoodSerializer(foods, many=True)
+            category_serializer = CategorySerializer(categories, many=True)
+            order_serializer = FoodOrderSerializer(orders, many=True)
+            staff_serializer = RestaurantStaffSerializer(staffs, many=True)
+            restaurant_serializer = RestaurantSerializer(restaurants, many=True)
+
+            return render(request, 'admin/home.html', {
+                'status': 'success',
+                'foods': food_serializer.data,
+                'categories': category_serializer.data,
+                'orders': order_serializer.data,
+                'staffs': staff_serializer.data,
+                'restaurants': restaurant_serializer.data,
+                'restaurant_id': restaurant_id,
+            })
+            
+    def staff(request, restaurant_id):
+        if request.method == 'GET':
+            staffs = RestaurantStaff.objects.filter(restaurant=restaurant_id)
+            staff_serializer = RestaurantStaffSerializer(staffs, many=True)
+            return render(request, 'admin/staff.html', {
+                'status': 'success',
+                'staffs': staff_serializer.data,
+                'restaurant_id': restaurant_id,
+            })
+            
+    def food(request, restaurant_id):
+        if request.method == 'GET':
+            foods = Food.objects.filter(category__restaurant_id=restaurant_id)
+            categories = Category.objects.filter(restaurant_id=restaurant_id)
+            food_serializer = FoodSerializer(foods, many=True)
+            category_serializer = CategorySerializer(categories, many=True)
+            return render(request, 'admin/food.html', {
+                'status': 'success',
+                'categories': category_serializer.data,
+                'foods': food_serializer.data,
+                'restaurant_id': restaurant_id
+            })

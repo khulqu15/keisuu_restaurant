@@ -22,7 +22,6 @@ class FoodOrder(BaseModel, models.Model):
     order_time = models.DateTimeField()
     status = models.CharField(max_length=200, choices=StatusUnits.CHOICES)
 
-
 class OrderItem(BaseModel, models.Model):
     order = models.ForeignKey(FoodOrder, on_delete=models.CASCADE, related_name="order_item_food_order")
     food = models.ForeignKey('food.Food', on_delete=models.CASCADE, related_name="order_item_food")

@@ -19,13 +19,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-# from rest_framework.routers import DefaultRouter
-# from customer.views import Index, Checkout
 
 urlpatterns = [
     path('restaurant/<int:restaurant_id>/table/<int:table_id>', views.HomePage, name='home'),
     path('restaurant/<int:restaurant_id>/table/<int:table_id>/cart', views.CartPage, name='cart'),
     path('restaurant/<int:restaurant_id>/table/<int:table_id>/checkout', views.CheckoutPage, name='checkout'),
+    
+    path('restaurant/<int:restaurant_id>/kitchen', views.CashierPage, name='kitchen'),
+    
+    path('admin/', include('order.admin_urls')),
     
     path("admin/", admin.site.urls),
     path('api/', include('customer.urls')),

@@ -14,9 +14,11 @@ function openModal(el) {
     document.getElementById('unit-input').value = unit_value
     let food = el.getAttribute('data-food')
     let jsonString = food
-        .replace(/OrderedDict\(/g, '')
-        .replace(/\)$/, '')
-        .trim();
+      .replace(/OrderedDict\(/g, '')
+      .replace(/\)/g, '')
+      .replace(/'/g, '"')
+      .replace(/: True/g, ': true')
+      .replace(/: False/g, ': false');
     jsonString = jsonString.replace(/\bNone\b/g, 'null');
     jsonString = jsonString.replace(/\'/g, '"');
     jsonString = jsonString.replace(/([{,]\s*)(\w+)(\s*:)/g, '$1"$2"$3');

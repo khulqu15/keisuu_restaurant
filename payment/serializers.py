@@ -16,6 +16,8 @@ class PaymentSerializer(serializers.ModelSerializer):
 class FoodOrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(source="order_item_food_order", many=True, required=False)
     foods = serializers.SerializerMethodField()
+    total_price = serializers.SerializerMethodField()
+    
     class Meta:
         model = FoodOrder
         fields = "__all__"
@@ -24,6 +26,9 @@ class FoodOrderSerializer(serializers.ModelSerializer):
     def get_foods(self, obj):
         foods = [item.food for item in obj.order_item_food_order.all()]
         return FoodSerializer(foods, many=True).data
+    
+    def get_total_price(self, obj):
+        return sum(item.subtotal for item in obj.order_item_food_order.all())
     
 class FoodOrderSerializerPost(serializers.ModelSerializer):
     class Meta:

@@ -1,0 +1,186 @@
+{% extends 'layout/chef.html' %}
+
+{% block content %}
+<div class="max-h-screen flex overflow-hidden justify-center bg-orange-100">
+    <div class="max-w-xl overflow-x-hidden relative bg-orange-100 w-full min-h-screen flex justify-center py-12 p-4">
+        <div class="w-full bg-gradient-to-b from-base-100 to-transparent rounded-2xl">
+            <div class="p-4 flex items-center justify-between w-full">
+                <div class="bg-orange-500 text-white inline-block px-4 py-2 rounded-lg">
+                    <div class="flex items-center gap-2">
+                        <span class="icon-park-solid--transaction-order"></span>
+                        <div class="font-semibold">Order List</div>
+                    </div>
+                </div>
+                <div class="btn bg-base-300" onclick="window.location.reload()">
+                    <span class="ion--reload-outline"></span>
+                    <span class="text-sm">Reload</span>
+                </div>
+            </div>
+            <div class="w-full min-h-[75svh] max-h-[75svh] rounded-b-2xl bg-base-100 overflow-x-hidden overflow-y-auto">
+                <div class="grid p-4 lg:grid-cols-4 grid-cols-3 gap-3 w-full" id="order-content">
+                    {% if orders|length %}
+                    {% for order in orders %}
+                    <div onclick="selectOrder('{{ forloop.counter0 }}')" class="w-full relative transition-all cursor-pointer">
+                        <div class="w-full bg-orange-500 rounded-t-xl p-1 px-2 text-white text-sm">Table</div>
+                        <div class="w-full bg-orange-100 py-1 px-2 rounded-b-xl text-2xl">{{ order.table.number }}</div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="lg:col-span-4 col-span-3">
+                        <div class="w-full bg-red-500 text-white p-3 rounded-xl flex items-center gap-3">
+                            <span class="nonicons--not-found-16"></span> Orders Not Found
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="checkbox" id="detail_modal" class="modal-toggle" />
+    <div class="modal" role="dialog">
+        <div class="modal-box max-w-xl">
+            <label for="detail_modal" class="btn absolute right-0 top-0"><span class="solar--close-square-bold"></span></label>
+            <h3 class="font-bold text-lg">Ordered Food List from Table <span id="table_number_modal"></span></h3>
+            <div class="grid gap-3 lg:grid-cols-3 md:grid-cols-3 mt-3 grid-cols-2" id="food-order-content">
+                <div class="w-full border rounded relative">
+                    <div class="absolute bg-orange-500 py-1 px-2 rounded text-lg text-white left-0 top-0">X3</div>
+                    <img src="/media/food.jpg" class="w-full h-24 object-cover object-center" alt="">
+                    <div class="p-2">
+                        <h1 class="text-sm font-semibold">Food Name Oishi</h1>
+                        <div class="flex items-center justify-between pt-3">
+                            <button class="btn bg-red-500 btn-sm border-0 text-white">Reject</button>
+                            <button class="btn bg-green-500 btn-sm border-0 text-white">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-action">
+                <label for="detail_modal" class="btn bg-orange-500 text-white" id="delete-button" onclick="deleteOrder()">Finish Order</label>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+let order_content = document.getElementById('order-content')
+let ordersData = "{{ orders|safe }}"
+let ordersJson = ordersData.replace(/OrderedDict\(/g, '')
+    .replace(/\)/g, '')
+    .replace(/'/g, '"')
+    .replace(/: True/g, ': true')
+    .replace(/: False/g, ': false');
+let orders = JSON.parse(ordersJson)
+let order_selected = {}
+let fetch_header = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+}
+
+function selectOrder(index) {
+    order_selected = orders[index]
+    if(order_selected) {
+        document.getElementById('table_number_modal').innerText = order_selected.table.number
+        let food_content = document.getElementById('food-order-content')
+        if(food_content) {
+            let food_content_html = ''
+            if(order_selected.foods.length > 0) {
+                order_selected.foods.map((el, idx) => {
+                    let order_data = order_selected.items.find((item) => item.food == el.id)
+                    food_content_html += `
+                    <div id="food-order-${el.id}" class="w-full transition-all border rounded relative">
+                        <div id="success-${el.id}" class="${order_data.status == 'accepted' ? 'bottom-20' : 'hidden bottom-0'} transition-all shadow-xl absolute left-0 z-[10] w-full flex items-center justify-center">
+                            <div class="bg-green-500 rounded-xl text-white p-3 flex items-cemnter">
+                                <span class="ep--success-filled"></span>
+                                <div>Accepted</div>
+                            </div>
+                        </div>
+                        <div id="reject-${el.id}" class="${order_data.status == 'rejected' ? 'bottom-20' : 'hidden bottom-0'} transition-all shadow-xl absolute left-0 z-[10] w-full flex items-center justify-center">
+                            <div class="bg-red-500 rounded-xl text-white p-3 flex items-cemnter">
+                                <span class="uis--times-circle"></span>
+                                <div>Rejected</div>
+                            </div>
+                        </div>
+                        <div class="absolute bg-orange-500 py-1 px-2 rounded text-lg text-white left-0 top-0">X${order_data ? order_data.quantity : '1'}</div>
+                        <img id="image-${el.id}" src="http://localhost:8000/${el.image}" class="${order_data.status == 'pending' ? '' : 'opacity-30'} w-full transition-all h-24 rounded object-cover object-center" alt="">
+                        <div id="content-${el.id}" class="${order_data.status == 'pending' ? '' : 'opacity-30'} p-2 trfansition-all">
+                            <h1 class="text-sm font-semibold">${el.name}</h1>
+                            <div class="flex items-center justify-between pt-3">
+                                <button id="reject-button-${el.id}" onclick="rejectOrder(${el.id}, ${order_data.id}, '${order_data.status}')" class="btn bg-red-500 btn-sm border-0 text-white">Reject</button>
+                                <button id="accept-button-${el.id}" onclick="acceptOrder(${el.id}, ${order_data.id}, '${order_data.status}')" class="btn bg-green-500 btn-sm border-0 text-white">Done</button>
+                            </div>
+                        </div>
+                    </div>`
+                }) 
+            } else {
+                food_content_html = `
+                <div class="lg:col-span-3 md:col-span-3 col-span-2 rounded-xl w-full bg-red-500 text-white p-3">
+                    There are no food
+                </div>
+                `
+            }
+            food_content.innerHTML = food_content_html
+        }
+        document.getElementById('detail_modal').click()
+    }
+}
+
+function rejectOrder(food_id, order_id, status) {
+    let orderIndex = order_selected.items.findIndex((item) => item.food == food_id);
+    if (orderIndex !== -1) {
+        const item = order_selected.items[orderIndex];
+        const isCurrentlyRejected = item.status === 'rejected';
+        document.getElementById('image-' + food_id).classList.toggle('opacity-30', !isCurrentlyRejected);
+        document.getElementById('content-' + food_id).classList.toggle('opacity-30', !isCurrentlyRejected);
+        document.getElementById('reject-' + food_id).classList.toggle('hidden', isCurrentlyRejected);
+        document.getElementById('reject-' + food_id).classList.toggle('bottom-20', !isCurrentlyRejected);
+        item.status = isCurrentlyRejected ? 'pending' : 'rejected';
+        setStatuOrder(food_id, order_id, item.status);
+    } else {
+        console.log('Item not found in the order');
+    }
+}
+
+function acceptOrder(food_id, order_id, status) {
+    let orderIndex = order_selected.items.findIndex((item) => item.food == food_id);
+    if (orderIndex !== -1) {
+        const item = order_selected.items[orderIndex];
+        const isCurrentlyRejected = item.status === 'accepted';
+        document.getElementById('image-' + food_id).classList.toggle('opacity-30', !isCurrentlyRejected);
+        document.getElementById('content-' + food_id).classList.toggle('opacity-30', !isCurrentlyRejected);
+        document.getElementById('success-' + food_id).classList.toggle('hidden', isCurrentlyRejected);
+        document.getElementById('success-' + food_id).classList.toggle('bottom-20', !isCurrentlyRejected);
+        item.status = isCurrentlyRejected ? 'pending' : 'accepted';
+        setStatuOrder(food_id, order_id, item.status);
+    } else {
+        console.log('Item not found in the order');
+    }
+}
+
+function deleteOrder() {
+    if(order_selected) {
+        fetch('/api/1/chef/order/'+order_selected.id+'/', {
+            method: 'DELETE',
+            headers: fetch_header,
+        })
+        .then((response) => { return response.json() })
+        .then((data) => {
+            if(data.status == 'success') window.location.reload()
+        })
+    }
+}
+
+function setStatuOrder(food_id, order_id, status_order) {
+    fetch('/api/1/chef/food/'+order_id+'/', {
+        method: 'POST',
+        headers: fetch_header,
+        body: JSON.stringify({
+            status: status_order
+        })
+    })
+    .then((response) => { return response.json() })
+    .then((data) => { console.log(data) })
+}
+</script>
+{% endblock %}
